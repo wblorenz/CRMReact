@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CRMReact.Server/teste.db
+/CRMReact.Server/teste.db-shm
+/CRMReact.Server/teste.db-wal
