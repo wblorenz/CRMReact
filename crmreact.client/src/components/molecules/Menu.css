@@ -1,0 +1,16 @@
+.Menu {
+    list-style: none;
+    min-width: 230px;
+}
+
+    .Menu > li {
+        border: 1px #808080 solid;
+        padding: 3px;
+        cursor: pointer;
+        transition: background-color ease-in-out .3s;
+    }
+
+        .Menu > li:hover {
+            background-color: #493333;
+            transition: background-color ease-in-out .3s;
+        }
