@@ -16,7 +16,6 @@ namespace CRMReact.Server.Controllers
             this.Context = context; 
         }
         [HttpGet]
-        [Route("GetAllAccounts")]
         public IEnumerable<AccountDTO> GetAllAccounts()
         {
 

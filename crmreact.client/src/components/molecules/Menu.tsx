@@ -8,13 +8,14 @@ export class MenuItem {
 }
 export declare interface MenuProp {
     items: MenuItem[];
+    setSelected: (selected: string) => void;
 }
 export function Menu(prop: MenuProp) {
     const items = prop.items;
     return (
         <ul className='Menu'>
             {items.map(item => {
-                return <li key={item.location}>{item.description}</li>;
+                return <li key={item.location} onClick={function () { prop.setSelected(item.location); }}>{item.description}</li>;
             })}
         </ul>
   );
