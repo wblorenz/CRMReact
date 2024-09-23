@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
 interface Account {
     id: string;
@@ -7,11 +7,11 @@ interface Account {
 
 export function AccountsList() {
     const [accounts, setAccounts] = useState<Account[]>();
-    useEffect(() => {
+    useMemo(() => {
         populateAccounts();
     }, []);
     const contents = accounts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
+        ? <p><em>Loading... </em></p>
         :
         <div>
             <div>
@@ -37,7 +37,6 @@ export function AccountsList() {
 
     return (
         <div>
-            <h1 id="tableLabel">Accounts</h1>
             {contents}
         </div>
     );

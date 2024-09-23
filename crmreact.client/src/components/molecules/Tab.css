@@ -1,17 +1,22 @@
-.Menu {
+.Tab {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
     list-style: none;
-    min-width: 230px;
-    float:left;
 }
 
-    .Menu > li {
+    .Tab > li {
         border: 1px #808080 solid;
         padding: 3px;
         cursor: pointer;
         transition: background-color ease-in-out .3s;
     }
 
-        .Menu > li:hover {
+        .Tab > li:hover {
             background-color: #493333;
             transition: background-color ease-in-out .3s;
         }
