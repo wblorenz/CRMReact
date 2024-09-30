@@ -1,8 +1,8 @@
 ﻿namespace CRMReact.Server.DTOs
 {
-    public class AccountDTO
+    public record AccountDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
     }

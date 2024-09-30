@@ -4,7 +4,8 @@ export class TabItem {
 
     description!: string;
     location!: string;
-    id: string;
+    id!: string;
+    screen!: JSX.Element;
 
 }
 export declare interface TabProp {
@@ -16,7 +17,7 @@ export function Tab(prop: TabProp) {
     return (
         <ul className='Tab'>
             {items.map(item => {
-                return <li key={item.location}onClick={function () { prop.exclude(item); }}>{item.description}</li>;
+                return <li key={item.location}>{item.description} <span className="exclude" onClick={function () { prop.exclude(item); }}>X</span></li>;
             })}
         </ul>
     );
