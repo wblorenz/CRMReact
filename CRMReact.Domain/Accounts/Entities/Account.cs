@@ -1,9 +1,11 @@
-﻿namespace CRMReact.Domain.Accounts.Entities
+﻿using CRMReact.Domain.Base.Interfaces;
+
+namespace CRMReact.Domain.Accounts.Entities
 {
-    public class Account
+    public class Account: IEntity
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
     }
 }

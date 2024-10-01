@@ -1,12 +1,9 @@
 ﻿using CRMReact.Data.Accounts.Repositories;
+using CRMReact.Data.Contacts.Repositories;
 using CRMReact.Domain.Accounts.Repositories;
 using CRMReact.Domain.Base.Interfaces;
+using CRMReact.Domain.Contacts.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRMReact.Data
 {
@@ -16,6 +13,7 @@ namespace CRMReact.Data
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
         }
     }
 }

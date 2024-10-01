@@ -1,6 +1,8 @@
 ﻿using CRMReact.Data.Accounts.Repositories;
+using CRMReact.Data.Contacts.Repositories;
 using CRMReact.Domain.Accounts.Repositories;
 using CRMReact.Domain.Base.Interfaces;
+using CRMReact.Domain.Contacts.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,10 @@ namespace CRMReact.Data
     {
         private IAccountRepository? _accounts;
         public IAccountRepository Accounts => _accounts ??= new AccountRepository(crmContext);
+
+        private IContactRepository? _contacts;
+        public IContactRepository Contacts => _contacts ??= new ContactRepository(crmContext);
+
         private readonly CRMContext crmContext;
         public UnitOfWork(CRMContext context) => crmContext = context;
         public Task<int> Commit()

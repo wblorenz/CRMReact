@@ -23,10 +23,10 @@ export function AccountsList() {
                     </thead>
                     <tbody>
                         {accounts.map(account =>
-                            <tr key={account.id} onClick={() => setAccountEditing(account)}>
+                            <tr key={account.id} onClick={() => setAccountEditing(account)} className="accountList">
                                 <td>{account.id}</td>
                                 <td>{account.name}</td>
-                                <td onClick={(e) => { e.stopPropagation(); removeAccount(account.id) }}>Remove</td>
+                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account.id) }}>Remove</td>
                             </tr>
                         )}
                     </tbody>

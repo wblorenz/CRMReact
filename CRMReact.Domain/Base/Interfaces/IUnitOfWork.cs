@@ -1,4 +1,5 @@
 ﻿using CRMReact.Domain.Accounts.Repositories;
+using CRMReact.Domain.Contacts.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CRMReact.Domain.Base.Interfaces
     public interface IUnitOfWork: IDisposable
     {
         IAccountRepository Accounts { get; }
+        IContactRepository Contacts { get; }
         Task<int> Commit();
     }
 }

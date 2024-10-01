@@ -5,7 +5,7 @@ export interface AccountEditProps {
     afterUpdate: () => void;
 }
 export function AccountEdit(props: AccountEditProps) {
-    const account = props.account ?? new Account();
+    let account = props.account ?? new Account();
     
     const [name, setName] = useState<string>(account?.name ?? "");
     const handleSubmit = () => {
@@ -22,7 +22,7 @@ export function AccountEdit(props: AccountEditProps) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({ Id: account?.id ?? "", Name: name })
-        }).then(() => props.afterUpdate());
+        }).then((e) => e.json()).then((e) => { account = e; props.afterUpdate(); });
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,6 @@ export function AccountEdit(props: AccountEditProps) {
     };
     return (
         <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-            <span>{account?.id}</span>
             <input name="name" value={name} onChange={handleChange}></input>
             <button type="submit">Save</button>
         </form>

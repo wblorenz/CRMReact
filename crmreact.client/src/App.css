@@ -14,3 +14,14 @@ th, td {
     
     overflow: auto;
 }
+.accountList:hover {
+    background-color: red;
+    transition: background-color ease-in-out .3s;
+}
+.accountList{
+    background-color: inherit;
+    transition: background-color ease-in-out .3s;
+}
+.exclude{
+    cursor: pointer;
+}
