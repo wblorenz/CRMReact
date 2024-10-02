@@ -16,10 +16,17 @@ namespace CRMReact.DTOs.Mappings
                 .ForMember(x => x.Id, (y) => y.Ignore())
                 .AfterMap((dto, entity) =>
                 {
-                    entity.Id = string.IsNullOrEmpty(dto.Id) ? Guid.NewGuid() : Guid.Parse(dto.Id);
+                    if (Guid.TryParse(dto.Id, out var guid))
+                    {
+                        entity.Id = guid;
+                    }
                 });
-            
-            CreateMap<Account, AccountDTO>();
+
+            CreateMap<Account, AccountDTO>()
+                .AfterMap((entity, dto) =>
+                {
+
+                });
         }
     }
 }

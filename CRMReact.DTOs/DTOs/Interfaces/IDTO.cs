@@ -2,6 +2,6 @@
 {
     public interface IDTO
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
     }
 }

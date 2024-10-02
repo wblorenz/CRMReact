@@ -1,10 +1,8 @@
-﻿using CRMReact.Data;
-using CRMReact.Domain.Contacts.Entities;
+﻿using AutoMapper;
 using CRMReact.Domain.Base.Interfaces;
+using CRMReact.Domain.Contacts.Entities;
 using CRMReact.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using CRMReact.Domain.Accounts.Entities;
 using System.Linq.Expressions;
 
 namespace CRMReact.Server.Controllers
@@ -21,12 +19,11 @@ namespace CRMReact.Server.Controllers
         protected override Expression<Func<Contact, ContactDTO>> SelectExpression => (x) => new ContactDTO()
         {
             Name = x.Name,
-            Account = x.Account != null ? x.Account.Name: "",
-            AccountId = x.AccountId,
+            Account = x.Account != null ? x.Account.Name : "",
+            AccountId = x.AccountId.ToString(),
             Email = x.Email,
             Id = x.Id.ToString(),
             Telephone = x.Telephone,
-
         };
     }
 }

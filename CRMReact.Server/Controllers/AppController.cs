@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Contacts.Entities;
+using CRMReact.DTOs;
 using CRMReact.DTOs.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -38,7 +39,10 @@ namespace CRMReact.Server.Controllers
             {
                 return NotFound();
             }
-            Mapper.Map(dto, acc);
+            Mapper.Map(dto, acc, x =>
+            {
+                x.Items[DTOConfiguration.ContextKey] = this.UnitOfWork;
+            });
             await this.UnitOfWork.Commit();
             return Ok(dto);
         }
@@ -67,7 +71,10 @@ namespace CRMReact.Server.Controllers
         [HttpPost]
         public async Task<ActionResult> Insert([FromBody] TDTO dto)
         {
-            var acc = Mapper.Map<TEntity>(dto);
+            var acc = Mapper.Map<TEntity>(dto, x =>
+            {
+                x.Items[DTOConfiguration.ContextKey] = this.UnitOfWork;
+            });
             Repository.Add(acc);
             await this.UnitOfWork.Commit();
             return Ok(acc);
