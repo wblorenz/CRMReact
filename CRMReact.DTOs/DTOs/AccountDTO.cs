@@ -1,6 +1,6 @@
-﻿using CRMReact.Server.DTOs.Interfaces;
+﻿using CRMReact.DTOs.Interfaces;
 
-namespace CRMReact.Server.DTOs
+namespace CRMReact.DTOs
 {
     public record AccountDTO:IDTO
     {

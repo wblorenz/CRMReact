@@ -1,4 +1,4 @@
-﻿namespace CRMReact.Server.DTOs.Interfaces
+﻿namespace CRMReact.DTOs.Interfaces
 {
     public interface IDTO
     {

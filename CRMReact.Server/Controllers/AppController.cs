@@ -1,7 +1,7 @@
-﻿using CRMReact.Domain.Base.Interfaces;
+﻿using AutoMapper;
+using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Contacts.Entities;
-using CRMReact.Server.DTOs;
-using CRMReact.Server.DTOs.Interfaces;
+using CRMReact.DTOs.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
@@ -9,26 +9,26 @@ namespace CRMReact.Server.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public abstract class AppController<TEntity, TDTO>: ControllerBase 
-        where TEntity: IEntity, new()
+    public abstract class AppController<TEntity, TDTO> : ControllerBase
+        where TEntity : IEntity
         where TDTO : IDTO
     {
         protected IUnitOfWork UnitOfWork;
         protected IRepository<TEntity> Repository;
-        public AppController(IUnitOfWork unitOfWork, IRepository<TEntity> repository)
+        protected IMapper Mapper;
+        public AppController(IUnitOfWork unitOfWork, IRepository<TEntity> repository, IMapper mapper)
         {
             this.UnitOfWork = unitOfWork;
             this.Repository = repository;
+            this.Mapper = mapper;
         }
-        protected abstract TDTO EntityTODTO(TEntity entity);
-        protected abstract TEntity DTOUpdateEntity(TDTO dto, TEntity entity);
         protected abstract Expression<Func<TEntity, TDTO>> SelectExpression { get; }
         [HttpGet]
         public IEnumerable<TDTO> GetAllEntities()
         {
             return Repository.FindByExpression(x => true).Select(SelectExpression);
         }
-        
+
         [HttpPut]
         public async Task<ActionResult> Edit([FromBody] TDTO dto)
         {
@@ -38,14 +38,14 @@ namespace CRMReact.Server.Controllers
             {
                 return NotFound();
             }
-            DTOUpdateEntity(dto, acc);
+            Mapper.Map(dto, acc);
             await this.UnitOfWork.Commit();
             return Ok(dto);
         }
         [HttpDelete("{id?}")]
         public ActionResult Delete(Guid? id)
         {
-            var acc =Repository.FindByExpression(x => x.Id == id).FirstOrDefault();
+            var acc = Repository.FindByExpression(x => x.Id == id).FirstOrDefault();
             if (acc == null)
             {
                 return NotFound();
@@ -67,8 +67,7 @@ namespace CRMReact.Server.Controllers
         [HttpPost]
         public async Task<ActionResult> Insert([FromBody] TDTO dto)
         {
-            var acc = new TEntity();
-            DTOUpdateEntity(dto, acc);
+            var acc = Mapper.Map<TEntity>(dto);
             Repository.Add(acc);
             await this.UnitOfWork.Commit();
             return Ok(acc);

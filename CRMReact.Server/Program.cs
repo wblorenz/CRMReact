@@ -1,6 +1,7 @@
 using CRMReact.Data;
 using CRMReact.Domain.Accounts.Repositories;
 using CRMReact.Domain.Base.Interfaces;
+using CRMReact.DTOs.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<CRMContext>(x =>
 {
     x.UseSqlite("Data Source=teste.db");
 });
+builder.Services.AddAutoMapper([typeof(IDTO).Assembly]);
 DataServices.AddDataServices(builder.Services);
 var app = builder.Build();
 
