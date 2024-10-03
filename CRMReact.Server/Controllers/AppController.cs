@@ -33,7 +33,10 @@ namespace CRMReact.Server.Controllers
         [HttpPut]
         public async Task<ActionResult> Edit([FromBody] TDTO dto)
         {
-            var localGuid = Guid.Parse(dto.Id);
+            if(!Guid.TryParse(dto.Id ?? "", out var localGuid))
+            {
+                return NotFound();
+            }
             var acc = Repository.FindByExpression(x => x.Id == localGuid).FirstOrDefault();
             if (acc == null)
             {

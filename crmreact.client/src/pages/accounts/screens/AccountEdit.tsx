@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { Account } from '../models/Account.tsx'
 export interface AccountEditProps {
     account: Account | undefined;
@@ -6,8 +6,14 @@ export interface AccountEditProps {
 }
 export function AccountEdit(props: AccountEditProps) {
     let account = props.account ?? new Account();
-    
-    const [name, setName] = useState<string>(account?.name ?? "");
+    const [name, setName] = useState<string>("");
+    useEffect(() => {
+        if (account?.name !== undefined) {
+            setName(account?.name);
+        } else {
+            setName("");
+        }
+    },[account?.name])
     const handleSubmit = () => {
         if (account === undefined) {
             return;
@@ -34,7 +40,7 @@ export function AccountEdit(props: AccountEditProps) {
     return (
         <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
             <input name="name" value={name} onChange={handleChange}></input>
-            <button type="submit">Save</button>
+            <button type="submit">{account.id === undefined ? 'New' : 'Update'}</button>
         </form>
     );
 

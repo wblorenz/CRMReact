@@ -26,14 +26,14 @@ export function AccountsList() {
                             <tr key={account.id} onClick={() => setAccountEditing(account)} className="accountList">
                                 <td>{account.id}</td>
                                 <td>{account.name}</td>
-                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account.id) }}>Remove</td>
+                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
             <div><input type="button" value="New Account" onClick={() => { setAccountEditing(undefined) }} /></div>
-            <div><AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>
+            <div><AccountEdit account={accountEditing} accountName={accountEditing?.name ?? ""} afterUpdate={() => { populateAccounts(); }} /></div>
         </div>;
 
     return (
@@ -47,14 +47,15 @@ export function AccountsList() {
         const data = await response.json();
         setAccounts(data);
     };
-    function removeAccount(id: string) {
-        fetch('api/Account/' + id, {
-            method: 'delete',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify({ Id: id })
-        }).then(() => populateAccounts());
-
+    function removeAccount(acc: Account) {
+        if (confirm("Delete the account? " + acc.name)) {
+            fetch('api/Account/' + acc.id, {
+                method: 'delete',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }, body: JSON.stringify({ Id: acc.id })
+            }).then(() => populateAccounts());
+        }
     };
 }
