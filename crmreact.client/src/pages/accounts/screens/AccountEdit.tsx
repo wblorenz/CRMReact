@@ -5,21 +5,20 @@ export interface AccountEditProps {
     afterUpdate: () => void;
 }
 export function AccountEdit(props: AccountEditProps) {
-    let account = props.account ?? new Account();
+    const [account, setAccount] = useState<Account | undefined>(props.account);
     const [name, setName] = useState<string>("");
     useEffect(() => {
-        if (account?.name !== undefined) {
-            setName(account?.name);
+        if (props.account?.name !== undefined) {
+            setAccount(props.account);
+            setName(props.account?.name);
         } else {
             setName("");
+            setAccount(undefined);
         }
-    },[account?.name])
-    const handleSubmit = () => {
-        if (account === undefined) {
-            return;
-        }
+    },[props.account])
+    const handleSubmit = () => { 
         let method = 'post';
-        if (account.id !== undefined) {
+        if (account?.id !== undefined) {
             method = 'put';
         }
         fetch('api/Account', {
@@ -28,7 +27,7 @@ export function AccountEdit(props: AccountEditProps) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({ Id: account?.id ?? "", Name: name })
-        }).then((e) => e.json()).then((e) => { account = e; props.afterUpdate(); });
+        }).then((e) => e.json()).then((e) => { setAccount(e); props.afterUpdate(); });
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +39,7 @@ export function AccountEdit(props: AccountEditProps) {
     return (
         <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
             <input name="name" value={name} onChange={handleChange}></input>
-            <button type="submit">{account.id === undefined ? 'New' : 'Update'}</button>
+            <button type="submit">{account?.id === undefined ? 'New' : 'Update'}</button>
         </form>
     );
 

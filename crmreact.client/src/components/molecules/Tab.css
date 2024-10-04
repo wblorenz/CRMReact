@@ -20,9 +20,3 @@
             background-color: #493333;
             transition: background-color ease-in-out .3s;
         }
-.exclude {
-    color: red;
-    padding-left:4px;
-    padding-right:4px;
-    border: 1px solid red;
-}

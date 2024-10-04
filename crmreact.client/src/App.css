@@ -7,21 +7,36 @@ th, td {
     padding-left: 1rem;
     padding-right: 1rem;
 }
-.container{
+
+.container {
     position: relative;
-    float: right;
-    max-height:80vh;
-    
+    float: left;
+    max-height: 80vh;
     overflow: auto;
+    margin: 15px 0px 0px 15px
 }
+
+.title {
+    width: 100%;
+    align-content: center;
+    border: 1px red solid;
+    border-radius: 12px;
+}
+
 .accountList:hover {
-    background-color: red;
+    background-color: #1c4a1d;
     transition: background-color ease-in-out .3s;
 }
-.accountList{
+
+.accountList {
     background-color: inherit;
     transition: background-color ease-in-out .3s;
 }
-.exclude{
+
+.exclude {
+    color: red;
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid red;
     cursor: pointer;
 }

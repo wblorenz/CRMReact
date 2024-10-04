@@ -12,6 +12,7 @@ export function AccountsList() {
         ? <p><em>Loading... </em></p>
         :
         <div>
+            <div><input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>
             <div>
                 <table className="table table-striped" aria-labelledby="tableLabel">
 
@@ -32,8 +33,7 @@ export function AccountsList() {
                     </tbody>
                 </table>
             </div>
-            <div><input type="button" value="New Account" onClick={() => { setAccountEditing(undefined) }} /></div>
-            <div><AccountEdit account={accountEditing} accountName={accountEditing?.name ?? ""} afterUpdate={() => { populateAccounts(); }} /></div>
+            {accountEditing && <div> <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
         </div>;
 
     return (

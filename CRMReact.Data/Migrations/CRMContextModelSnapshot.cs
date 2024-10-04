@@ -29,7 +29,7 @@ namespace CRMReact.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("CRMReact.Domain.Contacts.Entities.Contact", b =>
@@ -55,7 +55,7 @@ namespace CRMReact.Server.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("CRMReact.Domain.Contacts.Entities.Contact", b =>

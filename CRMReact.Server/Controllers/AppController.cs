@@ -50,7 +50,7 @@ namespace CRMReact.Server.Controllers
             return Ok(dto);
         }
         [HttpDelete("{id?}")]
-        public ActionResult Delete(Guid? id)
+        public async Task<ActionResult> Delete(Guid? id)
         {
             var acc = Repository.FindByExpression(x => x.Id == id).FirstOrDefault();
             if (acc == null)
@@ -58,7 +58,7 @@ namespace CRMReact.Server.Controllers
                 return NotFound();
             }
             Repository.Delete(acc);
-            this.UnitOfWork.Commit();
+            await this.UnitOfWork.Commit();
             return Ok(acc);
         }
         [HttpGet("{id?}")]
