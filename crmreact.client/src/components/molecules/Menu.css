@@ -1,21 +1,19 @@
 .Menu {
     list-style: none;
     min-width: 230px;
-    float:left;
-    border: 1px solid red;
-    border-radius: 12px;
+    float:left;    
     padding: 25px;
     margin-top: 15px
 }
 
     .Menu > li {
-        border: 1px #808080 solid;
+        border: 1px #008080 solid;
         padding: 3px;
         cursor: pointer;
         transition: background-color ease-in-out .3s;
     }
 
         .Menu > li:hover {
-            background-color: #493333;
+            background-color: #B0D4F1;
             transition: background-color ease-in-out .3s;
         }
