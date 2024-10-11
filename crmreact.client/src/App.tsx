@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import './App.css';
 import { Menu, MenuItem } from './components/molecules/Menu.tsx';
-import { AccountsList } from './pages/accounts/screens/AccountsList.tsx';
-import { ContactsList } from './pages/contacts/screens/ContactsList.tsx';
+import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
+import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
 import { Weather } from './pages/weather/Weather.tsx';
 
 function App() {
