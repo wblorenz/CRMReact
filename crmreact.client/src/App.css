@@ -1,5 +1,5 @@
 ﻿#root {
-    padding: 2rem;
+    padding: 2vh;
     text-align: center;
 }
 
@@ -11,6 +11,10 @@ th, td {
 .container {
     position: relative;
     float: left;
+    border: 1px #008080 solid;
+    border-radius: 12px;
+    background-color: #F2F2F2;
+    padding: 25px;
     max-height: 80vh;
     overflow: auto;
     margin: 15px 0px 0px 15px
@@ -25,7 +29,7 @@ th, td {
 }
 
 .accountList:hover {
-    background-color: #1c4a1d;
+    background-color: #B0D4F1;
     transition: background-color ease-in-out .3s;
 }
 
@@ -40,4 +44,9 @@ th, td {
     padding-right: 4px;
     border: 1px solid red;
     cursor: pointer;
+}
+
+.Home{
+    display: flex;
+    height: 100%;
 }

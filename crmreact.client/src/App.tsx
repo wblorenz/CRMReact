@@ -2,12 +2,14 @@ import { useState, useMemo } from 'react';
 import './App.css';
 import { Menu, MenuItem } from './components/molecules/Menu.tsx';
 import { AccountsList } from './pages/accounts/screens/AccountsList.tsx';
+import { ContactsList } from './pages/contacts/screens/ContactsList.tsx';
 import { Weather } from './pages/weather/Weather.tsx';
 
 function App() {
     const menuItems = useMemo(() => {
         return [
             { description: 'Accounts', location: "account", screen: (<AccountsList />) },
+            { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
             { description: 'Weather Test', location: "weather", screen: (<Weather />) },
         ]
     }, []);
@@ -21,9 +23,9 @@ function App() {
     const [selected, setSelected] = useState<string>(menuItems[0].location);
     const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
     return (
-        <div>
+        <div style={{ height:'100vh' }}>
             <div className='title'><h1>React CRM</h1></div>
-            <div style={{ width: '100%' }}>
+            <div className='Home'>
                 <Menu items={menuItems} onClickMenu={onClickMenu} />
                 <div className='container'>
                     {screen}
