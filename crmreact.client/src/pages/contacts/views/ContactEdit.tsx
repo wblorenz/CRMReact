@@ -4,6 +4,7 @@ import { AccountsList } from '../../accounts/views/AccountsList.tsx';
 export interface ContactEditProps {
     Contact: Contact | undefined;
     afterUpdate: () => void;
+    addPopup: (element: JSX.Element) => void;
 }
 export function ContactEdit(props: ContactEditProps) {
     const [Contact, setContact] = useState<Contact | undefined>(props.Contact);
@@ -50,6 +51,9 @@ export function ContactEdit(props: ContactEditProps) {
         }).then((e) => e.json()).then((e) => { setContact(e); props.afterUpdate(); });
     };
 
+    const openPopupAccount = ()=>{
+        props.addPopup((<AccountsList asLookup={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); }} />)); 
+    }
     return (
         <div>
             <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
@@ -66,11 +70,10 @@ export function ContactEdit(props: ContactEditProps) {
                     <input name="account" value={account} readOnly></input>
                 </label>
                 <input type="hidden" name="account_id" value={accountId} readOnly></input>
-                <button type="button" onClick={() => setShowAccountSelect(!showAccountSelect)}>Select Account</button>
+                <button type="button" onClick={() => openPopupAccount()}>Select Account</button>
                 <br />
                 <button type="submit">{Contact?.id === undefined ? 'New' : 'Update'}</button>
             </form>
-            {showAccountSelect && <div style={{ position: "fixed", zIndex: 2, padding: '-20rem' }}><AccountsList asLookup={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); } } /></div>}
         </div>
     );
 

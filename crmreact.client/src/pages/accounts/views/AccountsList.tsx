@@ -23,6 +23,7 @@ export function AccountsList(props: AccountListProps) {
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            {!props.asLookup && <th></th>}
                         </tr>
                     </thead>
                     <tbody>

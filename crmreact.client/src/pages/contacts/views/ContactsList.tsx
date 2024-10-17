@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Contact } from '../models/Contact.tsx';
 import { ContactEdit } from './ContactEdit.tsx';
-
-export function ContactsList() {
+export interface ContactsListProps {
+    addPopup: (element: JSX.Element) => void;
+}
+export function ContactsList(props: ContactsListProps) {
     const [Contacts, setContacts] = useState<Contact[]>();
     const [ContactEditing, setContactEditing] = useState<Contact>();
     useEffect(() => {
@@ -40,7 +42,7 @@ export function ContactsList() {
                     </tbody>
                 </table>
             </div>
-            {ContactEditing && <div> <ContactEdit Contact={ContactEditing} afterUpdate={() => { populateContacts(); }} /></div>}
+            {ContactEditing && <div> <ContactEdit Contact={ContactEditing} addPopup={props.addPopup} afterUpdate={() => { populateContacts(); }} /></div>}
         </div>;
 
     return (
