@@ -4,4 +4,5 @@ export class Contact {
     email!: string;
     telephone!: string;
     account!: string;
+    accountId!: string;
 }

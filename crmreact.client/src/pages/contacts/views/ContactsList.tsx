@@ -28,7 +28,7 @@ export function ContactsList() {
                     </thead>
                     <tbody>
                         {Contacts.map(Contact =>
-                            <tr key={Contact.id} onClick={() => setContactEditing(Contact)} className="ContactList">
+                            <tr key={Contact.id} onClick={() => setContactEditing(Contact)} className="recordList">
                                 <td>{Contact.id}</td>
                                 <td>{Contact.name}</td>
                                 <td>{Contact.email}</td>

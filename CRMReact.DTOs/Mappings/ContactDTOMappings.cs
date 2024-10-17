@@ -14,7 +14,7 @@ namespace CRMReact.DTOs.Mappings
                 {
                     if (dto.AccountId != null && Guid.TryParse(dto.AccountId, out var guid))
                     {
-                        entity.Id = guid;
+                        entity.AccountId = guid;
                         entity.Account = (context.Items[DTOConfiguration.ContextKey] as IUnitOfWork)?.Accounts.FindByExpression(x => x.Id == guid).FirstOrDefault();
                     }
                 });

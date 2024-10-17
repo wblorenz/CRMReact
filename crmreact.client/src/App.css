@@ -1,6 +1,8 @@
 ﻿#root {
     padding: 2vh;
     text-align: center;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 th, td {
@@ -15,9 +17,9 @@ th, td {
     border-radius: 12px;
     background-color: #F2F2F2;
     padding: 25px;
-    max-height: 80vh;
-    overflow: auto;
-    margin: 15px 0px 0px 15px
+    margin: 15px 0px 0px 15px;
+    flex-grow: 1;
+    text-align: left;
 }
 
 .title {
@@ -28,12 +30,12 @@ th, td {
     background-color: #F2F2F2;
 }
 
-.accountList:hover {
+.recordList:hover {
     background-color: #B0D4F1;
     transition: background-color ease-in-out .3s;
 }
 
-.accountList {
+.recordList {
     background-color: inherit;
     transition: background-color ease-in-out .3s;
 }
@@ -48,5 +50,5 @@ th, td {
 
 .Home{
     display: flex;
-    height: 100%;
+    height: calc(100% - 150px);
 }

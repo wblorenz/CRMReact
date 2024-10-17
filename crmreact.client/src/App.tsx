@@ -8,7 +8,7 @@ import { Weather } from './pages/weather/Weather.tsx';
 function App() {
     const menuItems = useMemo(() => {
         return [
-            { description: 'Accounts', location: "account", screen: (<AccountsList />) },
+            { description: 'Accounts', location: "account", screen: (<AccountsList asLookup={false} />) },
             { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
             { description: 'Weather Test', location: "weather", screen: (<Weather />) },
         ]
@@ -23,7 +23,7 @@ function App() {
     const [selected, setSelected] = useState<string>(menuItems[0].location);
     const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
     return (
-        <div style={{ height:'100vh' }}>
+        <div style={{ height: "98vh", boxSizing: "border-box" }}>
             <div className='title'><h1>React CRM</h1></div>
             <div className='Home'>
                 <Menu items={menuItems} onClickMenu={onClickMenu} />

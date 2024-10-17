@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Account } from '../models/Account.tsx';
 import { AccountEdit } from './AccountEdit.tsx';
-
-export function AccountsList() {
+export interface AccountListProps {
+    asLookup: boolean;
+    accountSelected?: (acc: Account) => void;
+}
+export function AccountsList(props: AccountListProps) {
     const [accounts, setAccounts] = useState<Account[]>();
     const [accountEditing, setAccountEditing] = useState<Account>();
     useEffect(() => {
@@ -12,7 +15,7 @@ export function AccountsList() {
         ? <p><em>Loading... </em></p>
         :
         <div>
-            <div><input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>
+            {!props.asLookup && <div><input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>}
             <div>
                 <table className="table table-striped" aria-labelledby="tableLabel">
 
@@ -24,16 +27,24 @@ export function AccountsList() {
                     </thead>
                     <tbody>
                         {accounts.map(account =>
-                            <tr key={account.id} onClick={() => setAccountEditing(account)} className="accountList">
+                            <tr key={account.id} onClick={() => {
+                                if (!props.asLookup) {
+                                    setAccountEditing(account);
+                                }
+                                else if (props.accountSelected) {
+                                    props.accountSelected(account);
+                                }
+                            }
+                            } className="recordList">
                                 <td>{account.id}</td>
                                 <td>{account.name}</td>
-                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>
+                                {!props.asLookup && <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>}
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
-            {accountEditing && <div> <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
+            {!props.asLookup && accountEditing && <div> <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
         </div>;
 
     return (
