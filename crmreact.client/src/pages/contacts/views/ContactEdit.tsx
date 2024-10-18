@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Contact } from '../models/Contact.tsx'
 import { AccountsList } from '../../accounts/views/AccountsList.tsx';
+import { PopupContext } from '../../../context/PopupContext.tsx';
 export interface ContactEditProps {
     Contact: Contact | undefined;
     afterUpdate: () => void;
-    addPopup: (element: JSX.Element) => void;
 }
 export function ContactEdit(props: ContactEditProps) {
+    const dispatch = useContext(PopupContext);
     const [Contact, setContact] = useState<Contact | undefined>(props.Contact);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -51,8 +52,14 @@ export function ContactEdit(props: ContactEditProps) {
         }).then((e) => e.json()).then((e) => { setContact(e); props.afterUpdate(); });
     };
 
-    const openPopupAccount = ()=>{
-        props.addPopup((<AccountsList asLookup={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); }} />)); 
+    const openPopupAccount = () => {
+        dispatch({
+            id: 1,
+            type: 'add',
+            content: (<AccountsList asLookup={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id:1, type:'remove'}) }} />)
+        });
+        // props.addPopup(); 
+
     }
     return (
         <div>

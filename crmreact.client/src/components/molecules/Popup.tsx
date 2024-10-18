@@ -1,4 +1,8 @@
 import './Popup.css';
+export interface PopupModel {
+    id: number;
+    content: JSX.Element;
+}
 export interface PopUpProps {
     id: number;
     content: JSX.Element;
