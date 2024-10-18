@@ -3,7 +3,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity:100%;
+    opacity: 100%;
+    border: 1px #008080 solid;
+    border-radius: 12px;
+    background-color: #F2F2F2;
+    padding: 25px;
 }
 
 .popupBackground{
