@@ -50,7 +50,7 @@ function App() {
                 </div>
                 <div>
                     {popups.map((pop) => (
-                        <Popup content={pop.content} id={pop.id} key={pop.id} remove={() => dispatch({
+                        <Popup content={pop.content} title='teste' id={pop.id} key={pop.id} remove={() => dispatch({
                             id: pop.id,
                             type:'remove'
                         })} />

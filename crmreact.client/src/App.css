@@ -31,7 +31,7 @@ th, td {
 }
 
 .recordList:hover {
-    background-color: #B0D4F1;
+    background-color: #B0D4F1 !important;
     transition: background-color ease-in-out .3s;
 }
 
@@ -51,4 +51,8 @@ th, td {
 .Home{
     display: flex;
     height: calc(100% - 150px);
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #b4e9e7;
 }
