@@ -4,7 +4,6 @@ import { Menu, MenuItem } from './components/molecules/Menu.tsx';
 import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
 import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
-import { Weather } from './pages/weather/Weather.tsx';
 import { PopupContext, PopupContextMethodParams } from './context/PopupContext.tsx';
 
 const addPopup = (popups: PopupModel[], action: PopupContextMethodParams) => {
@@ -26,7 +25,6 @@ function App() {
         return [
             { description: 'Accounts', location: "account", screen: (<AccountsList showEditing={false} />) },
             { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
-            { description: 'Weather Test', location: "weather", screen: (<Weather />) },
         ]
     }, []);
 
