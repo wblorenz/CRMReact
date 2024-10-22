@@ -24,7 +24,7 @@ function App() {
     const [popups, dispatch] = useReducer<PopupModel[], PopupContextMethodParams>(addPopup, []);
     const menuItems = useMemo(() => {
         return [
-            { description: 'Accounts', location: "account", screen: (<AccountsList asLookup={false} />) },
+            { description: 'Accounts', location: "account", screen: (<AccountsList showEditing={false} />) },
             { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
             { description: 'Weather Test', location: "weather", screen: (<Weather />) },
         ]

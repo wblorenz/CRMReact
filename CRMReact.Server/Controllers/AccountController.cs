@@ -23,5 +23,10 @@ namespace CRMReact.Server.Controllers
             Id = x.Id.ToString(),
             Name = x.Name
         };
+
+        protected override Expression<Func<Account, bool>> FindByExpression(string? filter)
+        {
+            return filter == null ? x=> true : x => x.Name.Contains(filter);
+        }
     }
 }

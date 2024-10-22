@@ -14,8 +14,8 @@ export function Popup(props: PopUpProps) {
     return (
         <div>
             <div className="popupBackground" onClick={() => props.remove(props.id)}></div>
-            <div className="popupBase"  onClick={() => props.remove(props.id)} key={props.id}>
-                <div className="popupTitle">{props.title}</div>
+            <div className="popupBase"  key={props.id}>
+                <div className="popupTitle" onClick={() => props.remove(props.id)}>{props.title}</div>
                 {props.content}
             </div>
         </div>

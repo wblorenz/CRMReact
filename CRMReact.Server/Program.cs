@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CRMContext>(x =>
 {
-    x.UseSqlite("Data Source=teste.db");
+    x.UseSqlite("Data Source=database/database.db");
 });
 builder.Services.AddAutoMapper([typeof(IDTO).Assembly]);
 DataServices.AddDataServices(builder.Services);

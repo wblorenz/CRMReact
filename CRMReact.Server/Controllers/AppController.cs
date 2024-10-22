@@ -24,16 +24,17 @@ namespace CRMReact.Server.Controllers
             this.Mapper = mapper;
         }
         protected abstract Expression<Func<TEntity, TDTO>> SelectExpression { get; }
+        protected abstract Expression<Func<TEntity, bool>> FindByExpression(string? filter);
         [HttpGet]
-        public IEnumerable<TDTO> GetAllEntities()
+        public IEnumerable<TDTO> GetAllEntities(string? filter)
         {
-            return Repository.FindByExpression(x => true).Select(SelectExpression);
+            return Repository.FindByExpression(FindByExpression(filter)).Select(SelectExpression);
         }
 
         [HttpPut]
         public async Task<ActionResult> Edit([FromBody] TDTO dto)
         {
-            if(!Guid.TryParse(dto.Id ?? "", out var localGuid))
+            if (!Guid.TryParse(dto.Id ?? "", out var localGuid))
             {
                 return NotFound();
             }
@@ -58,7 +59,14 @@ namespace CRMReact.Server.Controllers
                 return NotFound();
             }
             Repository.Delete(acc);
-            await this.UnitOfWork.Commit();
+            try
+            {
+                await this.UnitOfWork.Commit();
+            }
+            catch (Exception e)
+            {
+                return Problem("Unable to Delete " + e.Message, e.ToString());
+            }
             return Ok(acc);
         }
         [HttpGet("{id?}")]

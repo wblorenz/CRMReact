@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { Contact } from '../models/Contact.tsx';
 import { ContactEdit } from './ContactEdit.tsx';
 export function ContactsList() {
-    const [Contacts, setContacts] = useState<Contact[]>();
-    const [ContactEditing, setContactEditing] = useState<Contact>();
+    const [contacts, setContacts] = useState<Contact[]>();
+    const [contactEditing, setContactEditing] = useState<Contact>();
     useEffect(() => {
         populateContacts();
     }, []);
-    const contents = Contacts === undefined
+    const contents = contacts === undefined
         ? <p><em>Loading... </em></p>
         :
         <div>
@@ -26,7 +26,7 @@ export function ContactsList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {Contacts.map(Contact =>
+                        {contacts.map(Contact =>
                             <tr key={Contact.id} onClick={() => setContactEditing(Contact)} className="recordList">
                                 <td>{Contact.id}</td>
                                 <td>{Contact.name}</td>
@@ -39,7 +39,7 @@ export function ContactsList() {
                     </tbody>
                 </table>
             </div>
-            {ContactEditing && <div> <ContactEdit Contact={ContactEditing} afterUpdate={() => { populateContacts(); }} /></div>}
+            {contactEditing && <div> <ContactEdit contact={contactEditing} afterUpdate={() => { populateContacts(); }} /></div>}
         </div>;
 
     return (
@@ -61,7 +61,19 @@ export function ContactsList() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }, body: JSON.stringify({ Id: acc.id })
-            }).then(() => populateContacts());
+            }).then((res) => {
+                if (res.ok) {
+                    populateContacts();
+                    } else {
+                        res.json().then((json) => { 
+                            const { detail, instance } = json;
+                            throw new Error(detail + " - " + instance); 
+                        })
+                            .catch((error) => {
+                                alert(error);
+                            });
+                    }
+                })
         }
     };
 }

@@ -21,11 +21,11 @@
 }
 
 .popupTitle {
-    background-color: #0078d7; /* Windows title bar color */
+    background-color: #B0D4F1;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0 10px;
-    border: 1px solid #004a9e; /* Darker blue border */
+    border: 1px solid #004a9e;
 }
