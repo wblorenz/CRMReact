@@ -1,9 +1,8 @@
 import { createContext } from 'react';
-import { PopupModel } from '../components/molecules/Popup';
-export const PopupContext = createContext<null |  ((popups: PopupModel[], action: PopupContextMethodParams) => void)>(null);
+export const PopupContext = createContext<((action: PopupContextMethodParams) => void)>(()=>undefined);
 export interface PopupContextMethodParams {
     id: number;
     type: 'add'|'remove';
-    title: string;
+    title?: string;
     content?: JSX.Element;
 }

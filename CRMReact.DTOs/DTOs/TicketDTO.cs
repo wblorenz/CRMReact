@@ -13,8 +13,6 @@ namespace CRMReact.DTOs.DTOs
     {
         public string? Id { get; set; }
         public required string Title { get; set; }
-        public string? AccountId { get; set; }
-        public string? Account { get; set; }
         public string? ContactId { get; set; }
         public string? Contact { get; set; }
         public required string Description { get; set; }

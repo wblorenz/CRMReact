@@ -2,7 +2,7 @@
     position: fixed;
     background: #F2F2F2;
     width: 200px;
-    top: 40px;
+    top: 0px;
     padding: 25px;
     transition: all 0.5s linear;
     left: calc(50% - 200px);
@@ -13,4 +13,5 @@
 
 .quickMessageMoving {
     opacity: 100%;
+    top: 40px;
 }

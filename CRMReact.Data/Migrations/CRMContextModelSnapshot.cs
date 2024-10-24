@@ -68,9 +68,6 @@ namespace CRMReact.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("ContactId")
                         .HasColumnType("TEXT");
 
@@ -90,8 +87,6 @@ namespace CRMReact.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("ContactId");
 
                     b.ToTable("Tickets");
@@ -108,15 +103,9 @@ namespace CRMReact.Server.Migrations
 
             modelBuilder.Entity("CRMReact.Domain.Tickets.Entities.Ticket", b =>
                 {
-                    b.HasOne("CRMReact.Domain.Accounts.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("CRMReact.Domain.Contacts.Entities.Contact", "Contact")
                         .WithMany()
                         .HasForeignKey("ContactId");
-
-                    b.Navigation("Account");
 
                     b.Navigation("Contact");
                 });

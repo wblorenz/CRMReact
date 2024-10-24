@@ -13,8 +13,6 @@ namespace CRMReact.Domain.Tickets.Entities
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }
-        public Guid? AccountId { get; set; }
-        public Account? Account { get; set; }
         public Guid? ContactId { get; set; }
         public Contact? Contact { get; set; }
         public required string Description { get; set; }

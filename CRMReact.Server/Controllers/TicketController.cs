@@ -17,8 +17,6 @@ namespace CRMReact.Server.Controllers
         protected override Expression<Func<Ticket, TicketDTO>> SelectExpression => x => new TicketDTO()
         {
             Description = x.Description,
-            Account = x.Account.Name,
-            AccountId = x.AccountId.ToString(),
             Contact = x.Contact.Name,
             ContactId = x.ContactId.ToString(),
             Date = x.Date,

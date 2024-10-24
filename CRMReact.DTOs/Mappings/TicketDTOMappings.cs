@@ -17,23 +17,16 @@ namespace CRMReact.DTOs.Mappings
         {
 
             CreateMap<TicketDTO, Ticket>().ForMember(x => x.Id, (y) => y.Ignore())
-                    .ForMember(x => x.Account, y => y.Ignore())
                     .ForMember(x => x.Contact, y => y.Ignore())
                     .AfterMap((dto, entity, context) =>
                     {
-                        if (dto.AccountId != null && Guid.TryParse(dto.AccountId, out var guid))
-                        {
-                            entity.AccountId = guid;
-                            entity.Account = (context.Items[DTOConfiguration.ContextKey] as IUnitOfWork)?.Accounts.FindByExpression(x => x.Id == guid).FirstOrDefault();
-                        }
-                        if (dto.ContactId != null && Guid.TryParse(dto.ContactId, out guid))
+                        if (dto.ContactId != null && Guid.TryParse(dto.ContactId, out var guid))
                         {
                             entity.ContactId = guid;
                             entity.Contact = (context.Items[DTOConfiguration.ContextKey] as IUnitOfWork)?.Contacts.FindByExpression(x => x.Id == guid).FirstOrDefault();
                         }
                     });
             CreateMap<Ticket, TicketDTO>()
-                .ForMember(x => x.Account, y => y.Ignore())
                 .ForMember(x => x.Contact, y => y.Ignore());
         }
     }

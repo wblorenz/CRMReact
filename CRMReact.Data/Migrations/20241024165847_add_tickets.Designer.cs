@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMReact.Server.Migrations
 {
     [DbContext(typeof(CRMContext))]
-    [Migration("20241023175002_AddTickets")]
-    partial class AddTickets
+    [Migration("20241024165847_add_tickets")]
+    partial class add_tickets
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,9 +71,6 @@ namespace CRMReact.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("ContactId")
                         .HasColumnType("TEXT");
 
@@ -93,8 +90,6 @@ namespace CRMReact.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("ContactId");
 
                     b.ToTable("Tickets");
@@ -111,15 +106,9 @@ namespace CRMReact.Server.Migrations
 
             modelBuilder.Entity("CRMReact.Domain.Tickets.Entities.Ticket", b =>
                 {
-                    b.HasOne("CRMReact.Domain.Accounts.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("CRMReact.Domain.Contacts.Entities.Contact", "Contact")
                         .WithMany()
                         .HasForeignKey("ContactId");
-
-                    b.Navigation("Account");
 
                     b.Navigation("Contact");
                 });

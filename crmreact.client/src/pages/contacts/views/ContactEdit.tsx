@@ -56,6 +56,7 @@ export function ContactEdit(props: ContactEditProps) {
         dispatch({
             id: 1,
             type: 'add',
+            title: 'Accounts',
             content: (<AccountsList showEditing={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id:1, type:'remove'}) }} />)
         });
         // props.addPopup(); 

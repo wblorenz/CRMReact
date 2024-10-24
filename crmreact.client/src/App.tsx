@@ -7,10 +7,10 @@ import { Popup, PopupModel } from './components/molecules/Popup.tsx';
 import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
 import { PopupContext, PopupContextMethodParams } from './context/PopupContext.tsx';
 
-const addPopup = (popups: PopupModel[], action: PopupContextMethodParams) => {
+const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): PopupModel[] => {
     switch (action.type) {
         case 'add': {
-            return [...popups, { id: action.id, content: action.content }];
+            return [...popups, { id: action.id, content: action.content, title: action.title }];
         }
         case 'remove': {
             return popups.filter((i) => i.id !== action.id);
@@ -18,7 +18,7 @@ const addPopup = (popups: PopupModel[], action: PopupContextMethodParams) => {
     }
 }
 function App() {
-    const [popups, dispatch] = useReducer<((popups: PopupModel[], action: PopupContextMethodParams) => PopupModel[]), PopupModel[]>(addPopup, []);
+    const [popups, dispatch] = useReducer(addPopup, []);
     const menuItems = useMemo(() => {
         return [
             { description: 'Accounts', location: "account", screen: (<AccountsList showEditing={false} />) },
@@ -60,9 +60,10 @@ function App() {
                         </div>
                     </div>
                     <div>
-                        {popups.map((pop: PopupContextMethodParams) => (
-                            <Popup content={pop.content} title='teste' id={pop.id} key={pop.id} remove={() => dispatch({
+                        {popups.map((pop) => (
+                            <Popup content={pop.content} title={pop.title} id={pop.id} key={pop.id} remove={() => dispatch({
                                 id: pop.id,
+                                title: pop.title,
                                 type: 'remove'
                             })} />
                         ))}
