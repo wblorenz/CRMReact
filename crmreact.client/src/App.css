@@ -40,6 +40,10 @@ th, td {
     transition: background-color ease-in-out .3s;
 }
 
+.selectedList td {
+    border: 1px red solid;
+}
+
 .exclude {
     color: red;
     padding-left: 4px;
@@ -48,7 +52,7 @@ th, td {
     cursor: pointer;
 }
 
-.Home{
+.Home {
     display: flex;
     height: calc(100% - 150px);
 }

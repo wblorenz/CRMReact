@@ -19,14 +19,7 @@ namespace CRMReact.DTOs.Mappings
                     }
                 });
             CreateMap<Contact, ContactDTO>()
-                .ForMember(x => x.Account, y => y.Ignore())
-                .AfterMap((entity, dto, context) =>
-                {
-                    if (dto.AccountId != null && Guid.TryParse(dto.AccountId, out var guid))
-                    {
-                        entity.Account = (context.Items[DTOConfiguration.ContextKey] as IUnitOfWork)?.Accounts.FindByExpression(x => x.Id == guid).FirstOrDefault();
-                    }
-                });
+                .ForMember(x => x.Account, y => y.Ignore());
         }
 
     }

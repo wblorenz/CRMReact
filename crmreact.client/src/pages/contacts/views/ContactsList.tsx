@@ -27,12 +27,12 @@ export function ContactsList() {
                     </thead>
                     <tbody>
                         {contacts.map(Contact =>
-                            <tr key={Contact.id} onClick={() => setContactEditing(Contact)} className="recordList">
+                            <tr key={Contact.id} onClick={() => setContactEditing(Contact)} className={contactEditing?.id === Contact.id ? "recordList selectedList" : "recordList"}>
                                 <td>{Contact.id}</td>
                                 <td>{Contact.name}</td>
                                 <td>{Contact.email}</td>
                                 <td>{Contact.telephone}</td>
-                                <td>{Contact.account}</td>
+                                <td>{Contact.account} </td>
                                 <td className="exclude" onClick={(e) => { e.stopPropagation(); removeContact(Contact) }}>Remove</td>
                             </tr>
                         )}

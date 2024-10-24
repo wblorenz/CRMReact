@@ -15,27 +15,24 @@ const addPopup = (popups: PopupModel[], action: PopupContextMethodParams) => {
             return popups.filter((i) => i.id !== action.id);
         }
     }
-    throw Error('teste');
 }
 function App() {
-    //pop.popups
-
-    const [popups, dispatch] = useReducer<PopupModel[], PopupContextMethodParams>(addPopup, []);
+    const [popups, dispatch] = useReducer<((popups: PopupModel[], action: PopupContextMethodParams) => PopupModel[]), PopupModel[]>(addPopup, []);
     const menuItems = useMemo(() => {
         return [
             { description: 'Accounts', location: "account", screen: (<AccountsList showEditing={false} />) },
             { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
         ]
     }, []);
-
-    const [selected, setSelected] = useState<string>(menuItems[0].location);
-    const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
     const onClickMenu = function (sel: MenuItem) {
         if (sel.location !== selected) {
             setSelected(sel.location);
             setScreen(sel.screen);
         }
     }
+
+    const [selected, setSelected] = useState<string>(menuItems[0].location);
+    const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
     return (
         <PopupContext.Provider value={dispatch}>
             <div style={{ height: "98vh", boxSizing: "border-box" }}>
@@ -47,7 +44,7 @@ function App() {
                     </div>
                 </div>
                 <div>
-                    {popups.map((pop) => (
+                    {popups.map((pop: PopupContextMethodParams) => (
                         <Popup content={pop.content} title='teste' id={pop.id} key={pop.id} remove={() => dispatch({
                             id: pop.id,
                             type:'remove'

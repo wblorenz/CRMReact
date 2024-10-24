@@ -20,7 +20,7 @@ export function AccountsList(props: AccountListProps) {
             {!accountEditing && < div >
                 <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
                 <button type='button' onClick={() => populateAccounts(filter)}>Filter</button>
-                <br/>
+                <br />
                 <table className="table table-striped" aria-labelledby="tableLabel">
 
                     <thead>
@@ -49,7 +49,9 @@ export function AccountsList(props: AccountListProps) {
                     </tbody>
                 </table>
             </div>}
-            {!props.showEditing && accountEditing && <div> <button type="button" value="Return" onClick={() => setAccountEditing(undefined)} >Return</button> <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
+            {!props.showEditing && accountEditing && <div>
+                <button type="button" value="Return" onClick={() => setAccountEditing(undefined)} >Return</button>
+                <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
         </div>;
 
     return (
@@ -59,7 +61,7 @@ export function AccountsList(props: AccountListProps) {
     );
 
     async function populateAccounts(fil?: string) {
-        const response = await fetch(fil ? 'api/Account?filter='+fil: 'api/Account');
+        const response = await fetch(fil ? 'api/Account?filter=' + fil : 'api/Account');
         const data = await response.json();
         setAccounts(data);
     };
@@ -76,9 +78,9 @@ export function AccountsList(props: AccountListProps) {
                     if (res.ok) {
                         populateAccounts('');
                     } else {
-                        res.json().then((json) => { 
+                        res.json().then((json) => {
                             const { detail, instance } = json;
-                            throw new Error(detail + " - " + instance); 
+                            throw new Error(detail + " - " + instance);
                         })
                             .catch((error) => {
                                 alert(error);
