@@ -4,6 +4,7 @@ import { Menu, MenuItem } from './components/molecules/Menu.tsx';
 import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
 import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
+import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
 import { PopupContext, PopupContextMethodParams } from './context/PopupContext.tsx';
 
 const addPopup = (popups: PopupModel[], action: PopupContextMethodParams) => {
@@ -33,25 +34,42 @@ function App() {
 
     const [selected, setSelected] = useState<string>(menuItems[0].location);
     const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
+    const [quickMsg, setQuickMsg] = useState<string>('');
+    const setMessage = (s: string) => {
+        setQuickMsg(s);
+        setTimeout(() => {
+            const quick = document.getElementById('quickMessage');
+            if (quick) quick.className += " quickMessageMoving";
+
+        }, 100)
+        setTimeout(() => {
+            setQuickMsg('');
+            const quick = document.getElementById('quickMessage');
+            if (quick) quick.className = "quickMessage";
+        }, 1500);
+    }
     return (
         <PopupContext.Provider value={dispatch}>
-            <div style={{ height: "98vh", boxSizing: "border-box" }}>
-                <div className='title'><h1>React CRM</h1></div>
-                <div className='Home'>
-                    <Menu items={menuItems} onClickMenu={onClickMenu} />
-                    <div className='container'>
-                        {screen}
+            <QuickMessageContext.Provider value={setMessage}>
+                <div style={{ height: "98vh", boxSizing: "border-box" }}>
+                    <div className='title'><h1>React CRM</h1></div>
+                    <div className='Home'>
+                        <Menu items={menuItems} onClickMenu={onClickMenu} />
+                        <div className='container'>
+                            {screen}
+                        </div>
                     </div>
+                    <div>
+                        {popups.map((pop: PopupContextMethodParams) => (
+                            <Popup content={pop.content} title='teste' id={pop.id} key={pop.id} remove={() => dispatch({
+                                id: pop.id,
+                                type: 'remove'
+                            })} />
+                        ))}
+                    </div>
+                    {quickMsg !== '' && <QuickMessage message={quickMsg}></QuickMessage>}
                 </div>
-                <div>
-                    {popups.map((pop: PopupContextMethodParams) => (
-                        <Popup content={pop.content} title='teste' id={pop.id} key={pop.id} remove={() => dispatch({
-                            id: pop.id,
-                            type:'remove'
-                        })} />
-                    ))}
-                </div>
-            </div>
+            </QuickMessageContext.Provider>
         </PopupContext.Provider>
     );
 }
