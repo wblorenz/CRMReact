@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Contact } from '../models/Contact.tsx';
 import { ContactEdit } from './ContactEdit.tsx';
+import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export function ContactsList() {
     const [contacts, setContacts] = useState<Contact[]>();
     const [contactEditing, setContactEditing] = useState<Contact>();
+    const message = useContext(QuickMessageContext);
     useEffect(() => {
         populateContacts();
     }, []);
@@ -33,7 +35,7 @@ export function ContactsList() {
                                 <td>{Contact.email}</td>
                                 <td>{Contact.telephone}</td>
                                 <td>{Contact.account} </td>
-                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeContact(Contact) }}>Remove</td>
+                                <td className="exclude" onClick={(e) => { e.stopPropagation(); removeContact(Contact); }}>Remove</td>
                             </tr>
                         )}
                     </tbody>
@@ -64,16 +66,19 @@ export function ContactsList() {
             }).then((res) => {
                 if (res.ok) {
                     populateContacts();
-                    } else {
-                        res.json().then((json) => { 
-                            const { detail, instance } = json;
-                            throw new Error(detail + " - " + instance); 
-                        })
-                            .catch((error) => {
-                                alert(error);
-                            });
+                    if (message) {
+                        message('Contact Deleted!');
                     }
-                })
+                } else {
+                    res.json().then((json) => {
+                        const { detail, instance } = json;
+                        throw new Error(detail + " - " + instance);
+                    })
+                        .catch((error) => {
+                            alert(error);
+                        });
+                }
+            })
         }
     };
 }

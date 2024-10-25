@@ -4,7 +4,7 @@ export class MenuItem {
 
     description!: string;
     location!: string;
-    screen!: JSX.Element;
+    view!: JSX.Element;
 }
 export declare interface MenuProp {
     items: MenuItem[];

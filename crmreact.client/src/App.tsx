@@ -21,19 +21,19 @@ function App() {
     const [popups, dispatch] = useReducer(addPopup, []);
     const menuItems = useMemo(() => {
         return [
-            { description: 'Accounts', location: "account", screen: (<AccountsList showEditing={false} />) },
-            { description: 'Contacts', location: "contacts", screen: (<ContactsList />) },
+            { description: 'Accounts', location: "account", view: (<AccountsList disableEditing={false} />) },
+            { description: 'Contacts', location: "contacts", view: (<ContactsList />) },
         ]
     }, []);
     const onClickMenu = function (sel: MenuItem) {
         if (sel.location !== selected) {
             setSelected(sel.location);
-            setScreen(sel.screen);
+            setView(sel.view);
         }
     }
 
     const [selected, setSelected] = useState<string>(menuItems[0].location);
-    const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
+    const [view, setView] = useState<JSX.Element>(menuItems[0].view);
     const [quickMsg, setQuickMsg] = useState<string>('');
     return (
         <PopupContext.Provider value={dispatch}>
@@ -43,7 +43,7 @@ function App() {
                     <div className='Home'>
                         <Menu items={menuItems} onClickMenu={onClickMenu} />
                         <div className='container'>
-                            {screen}
+                            {view}
                         </div>
                     </div>
                     <div>

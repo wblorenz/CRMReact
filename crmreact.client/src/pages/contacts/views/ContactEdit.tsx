@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Contact } from '../models/Contact.tsx'
 import { AccountsList } from '../../accounts/views/AccountsList.tsx';
 import { PopupContext } from '../../../context/PopupContext.tsx';
+import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface ContactEditProps {
     contact: Contact | undefined;
     afterUpdate: () => void;
@@ -15,6 +16,7 @@ export function ContactEdit(props: ContactEditProps) {
     const [account, setAccount] = useState<string>("");
     const [accountId, setAccountId] = useState<string>("");
     const [showAccountSelect, setShowAccountSelect] = useState<boolean>(false);
+    const message = useContext(QuickMessageContext);
     useEffect(() => {
         if (props.contact?.name !== undefined) {
             setContact(props.contact);
@@ -49,7 +51,7 @@ export function ContactEdit(props: ContactEditProps) {
                 Telephone: telephone,
                 AccountId: accountId
             })
-        }).then((e) => e.json()).then((e) => { setContact(e); props.afterUpdate(); });
+        }).then((e) => e.json()).then((e) => { setContact(e); props.afterUpdate(); if (message) { message('Contact Saved!'); }});
     };
 
     const openPopupAccount = () => {
@@ -57,7 +59,7 @@ export function ContactEdit(props: ContactEditProps) {
             id: 1,
             type: 'add',
             title: 'Accounts',
-            content: (<AccountsList showEditing={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id:1, type:'remove'}) }} />)
+            content: (<AccountsList disableEditing={true} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id:1, type:'remove'}) }} />)
         });
         // props.addPopup(); 
 

@@ -8,11 +8,12 @@ export interface QuickMessageProps {
 
 export const QuickMessageContext = createContext<((str: string) => void) | undefined>(undefined);
 export function QuickMessage(props: QuickMessageProps) {
-    const divRef = useRef(null);
+    const { removeMessage } = props;
+    const divRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         setTimeout(() => {
             if (divRef && divRef.current)
-                divRef.current.className += " quickMessageMoving";
+                divRef.current.className = "quickMessage quickMessageMoving";
         }, 100);
 
         setTimeout(() => {
@@ -20,11 +21,10 @@ export function QuickMessage(props: QuickMessageProps) {
                 divRef.current.className = "quickMessage";
         }, 1500);
         setTimeout(() => {
-            props.removeMessage();
-
+            removeMessage();
         }, 3000);
-    }, []);
-    return <div className='quickMessage' id='quickMessage' ref={divRef}>
+    }, [removeMessage]);
+    return <div className='quickMessage' ref={divRef}>
         <span>{props.message}</span>
     </div>
 }
