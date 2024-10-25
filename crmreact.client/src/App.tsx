@@ -10,7 +10,7 @@ import { PopupContext, PopupContextMethodParams } from './context/PopupContext.t
 const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): PopupModel[] => {
     switch (action.type) {
         case 'add': {
-            return [...popups, { id: action.id, content: action.content, title: action.title }];
+            return [...popups, { id: action.id, content: action.content, title: action.title ?? "" }];
         }
         case 'remove': {
             return popups.filter((i) => i.id !== action.id);
@@ -35,22 +35,9 @@ function App() {
     const [selected, setSelected] = useState<string>(menuItems[0].location);
     const [screen, setScreen] = useState<JSX.Element>(menuItems[0].screen);
     const [quickMsg, setQuickMsg] = useState<string>('');
-    const setMessage = (s: string) => {
-        setQuickMsg(s);
-        setTimeout(() => {
-            const quick = document.getElementById('quickMessage');
-            if (quick) quick.className += " quickMessageMoving";
-
-        }, 100)
-        setTimeout(() => {
-            setQuickMsg('');
-            const quick = document.getElementById('quickMessage');
-            if (quick) quick.className = "quickMessage";
-        }, 1500);
-    }
     return (
         <PopupContext.Provider value={dispatch}>
-            <QuickMessageContext.Provider value={setMessage}>
+            <QuickMessageContext.Provider value={setQuickMsg}>
                 <div style={{ height: "98vh", boxSizing: "border-box" }}>
                     <div className='title'><h1>React CRM</h1></div>
                     <div className='Home'>
@@ -68,7 +55,7 @@ function App() {
                             })} />
                         ))}
                     </div>
-                    {quickMsg !== '' && <QuickMessage message={quickMsg}></QuickMessage>}
+                    {quickMsg !== '' && <QuickMessage message={quickMsg} removeMessage={() => setQuickMsg('')}></QuickMessage>}
                 </div>
             </QuickMessageContext.Provider>
         </PopupContext.Provider>

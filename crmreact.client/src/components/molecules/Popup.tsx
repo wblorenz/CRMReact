@@ -2,12 +2,12 @@ import './Popup.css';
 export type PopupModel = {
     id: number;
     content?: JSX.Element;
-    title: string;
+    title?: string;
 }
 export interface PopUpProps {
     id: number;
     content?: JSX.Element;
-    title: string;
+    title?: string;
     remove: (id: number) => void;
 }
 export function Popup(props: PopUpProps) {
