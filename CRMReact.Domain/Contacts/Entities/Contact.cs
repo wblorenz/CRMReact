@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CRMReact.Domain.Contacts.Entities
 {
-    public class Contact: IEntity
+    public class Contact: IEntity, IValidatableObject
     {
         public Guid Id { get; set; }
         [StringLength(150)]
@@ -20,5 +20,13 @@ namespace CRMReact.Domain.Contacts.Entities
         public string? Telephone { get; set; }
         public Account? Account { get; set; }
         public Guid? AccountId { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                yield return new ValidationResult("Name is required");
+            }
+        }
     }
 }

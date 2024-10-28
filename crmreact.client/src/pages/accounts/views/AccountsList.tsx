@@ -3,7 +3,7 @@ import { Account } from '../models/Account.tsx';
 import { AccountEdit } from './AccountEdit.tsx';
 import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface AccountListProps {
-    disableEditing: boolean;
+    showEditing: boolean;
     accountSelected?: (acc: Account) => void;
 }
 export function AccountsList(props: AccountListProps) {
@@ -18,7 +18,7 @@ export function AccountsList(props: AccountListProps) {
         ? <p><em>Loading... </em></p>
         :
         <div>
-            {!props.disableEditing && !accountEditing && < div > <input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>}
+            {props.showEditing && !accountEditing && < div > <input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>}
             {!accountEditing && < div >
                 <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
                 <button type='button' onClick={() => populateAccounts(filter)}>Filter</button>
@@ -29,13 +29,13 @@ export function AccountsList(props: AccountListProps) {
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            {!props.disableEditing && <th></th>}
+                            {props.showEditing && <th></th>}
                         </tr>
                     </thead>
                     <tbody>
                         {accounts.map(account =>
                             <tr key={account.id} onClick={() => {
-                                if (!props.disableEditing) {
+                                if (props.showEditing) {
                                     setAccountEditing(account);
                                 }
                                 if (props.accountSelected) {
@@ -45,13 +45,13 @@ export function AccountsList(props: AccountListProps) {
                             } className="recordList">
                                 <td>{account.id}</td>
                                 <td>{account.name}</td>
-                                {!props.disableEditing && <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>}
+                                {props.showEditing && <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>}
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>}
-            {!props.disableEditing && accountEditing && <div>
+            {props.showEditing && accountEditing && <div>
                 <button type="button" value="Return" onClick={() => setAccountEditing(undefined)} >Return</button>
                 <AccountEdit account={accountEditing} afterUpdate={() => { populateAccounts(); }} /></div>}
         </div>;

@@ -21,8 +21,8 @@ function App() {
     const [popups, dispatch] = useReducer(addPopup, []);
     const menuItems = useMemo(() => {
         return [
-            { description: 'Accounts', location: "account", view: (<AccountsList disableEditing={false} />) },
-            { description: 'Contacts', location: "contacts", view: (<ContactsList />) },
+            { description: 'Accounts', location: "account", view: (<AccountsList showEditing={true} />) },
+            { description: 'Contacts', location: "contacts", view: (<ContactsList showEditing={true} />) },
         ]
     }, []);
     const onClickMenu = function (sel: MenuItem) {
