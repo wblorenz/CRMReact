@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Contact } from '../models/Contact.tsx'
 import { AccountsList } from '../../accounts/views/AccountsList.tsx';
-import { PopupContext } from '../../../context/PopupContext.tsx';
-import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
+import { GetPopupContext } from '../../../context/PopupContext.tsx';
+import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface ContactEditProps {
     contact: Contact | undefined;
     afterUpdate: () => void;
 }
 export function ContactEdit(props: ContactEditProps) {
-    const dispatch = useContext(PopupContext);
+    const dispatch = GetPopupContext();
     const [contact, setContact] = useState<Contact | undefined>(props.contact);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -17,7 +17,7 @@ export function ContactEdit(props: ContactEditProps) {
     const [accountId, setAccountId] = useState<string>("");
     const [showAccountSelect, setShowAccountSelect] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const message = useContext(QuickMessageContext);
+    const message = GetQuickMessageContext();
     useEffect(() => {
         if (props.contact?.name !== undefined) {
             setContact(props.contact);
@@ -55,9 +55,9 @@ export function ContactEdit(props: ContactEditProps) {
             })
         }).then((e) => {
             if (e.ok) {
-                e.json().then((e) => { setContact(e); props.afterUpdate(); if (message) { message('Contact Saved!'); } });
+                e.json().then((e) => { setContact(e); props.afterUpdate(); message('Contact Saved!'); });
             } else {
-                if (message) { message('Error on save'); }
+                message('Error on save');
 
                 e.json().then((e) => { setError(e); });
             }
@@ -71,8 +71,6 @@ export function ContactEdit(props: ContactEditProps) {
             title: 'Accounts',
             content: (<AccountsList showEditing={false} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id: 1, type: 'remove' }) }} />)
         });
-        // props.addPopup(); 
-
     }
     return (
         <div>

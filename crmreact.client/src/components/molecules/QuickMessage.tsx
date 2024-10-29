@@ -1,4 +1,4 @@
-import { createContext, useRef, useEffect } from 'react';
+import { createContext, useRef, useEffect, useContext } from 'react';
 import './QuickMessage.css';
 
 export interface QuickMessageProps {
@@ -27,4 +27,13 @@ export function QuickMessage(props: QuickMessageProps) {
     return <div className='quickMessage' ref={divRef}>
         <span>{props.message}</span>
     </div>
+}
+
+export function GetQuickMessageContext() {
+
+    const message = useContext(QuickMessageContext);
+    if (message == undefined) {
+        throw new Error("There's no Quick Message Context");
+    }
+    return message;
 }

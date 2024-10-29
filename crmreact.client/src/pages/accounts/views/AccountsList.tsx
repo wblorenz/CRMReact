@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Account } from '../models/Account.tsx';
 import { AccountEdit } from './AccountEdit.tsx';
-import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
+import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface AccountListProps {
     showEditing: boolean;
     accountSelected?: (acc: Account) => void;
@@ -10,7 +10,7 @@ export function AccountsList(props: AccountListProps) {
     const [accounts, setAccounts] = useState<Account[]>();
     const [filter, setFilter] = useState<string>('');
     const [accountEditing, setAccountEditing] = useState<Account>();
-    const message = useContext(QuickMessageContext);
+    const message = GetQuickMessageContext();
     useEffect(() => {
         populateAccounts('');
     }, []);
@@ -80,9 +80,7 @@ export function AccountsList(props: AccountListProps) {
                 .then((res) => {
                     if (res.ok) {
                         populateAccounts('');
-                        if (message) {
-                            message('Account Deleted!');
-                        }
+                        message('Account Deleted!');
                     } else {
                         res.json().then((json) => {
                             const { detail, instance } = json;

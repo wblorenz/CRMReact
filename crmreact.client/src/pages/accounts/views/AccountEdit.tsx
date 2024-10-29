@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Account } from '../models/Account.tsx'
-import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
+import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface AccountEditProps {
     account: Account | undefined;
     afterUpdate: () => void;
@@ -8,7 +8,7 @@ export interface AccountEditProps {
 export function AccountEdit(props: AccountEditProps) {
     const [account, setAccount] = useState<Account | undefined>(props.account);
     const [name, setName] = useState<string>("");
-    const message = useContext(QuickMessageContext);
+    const message = GetQuickMessageContext();
     useEffect(() => {
         if (props.account?.name !== undefined) {
             setAccount(props.account);
@@ -29,7 +29,7 @@ export function AccountEdit(props: AccountEditProps) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({ Id: account?.id ?? "", Name: name })
-        }).then((e) => e.json()).then((e) => { setAccount(e); props.afterUpdate(); if (message) { message('Account Saved!'); } });
+        }).then((e) => e.json()).then((e) => { setAccount(e); props.afterUpdate(); message('Account Saved!'); });
     };
 
     return (
