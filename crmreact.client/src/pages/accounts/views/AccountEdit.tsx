@@ -17,8 +17,8 @@ export function AccountEdit(props: AccountEditProps) {
             setName("");
             setAccount(undefined);
         }
-    },[props.account])
-    const handleSubmit = () => { 
+    }, [props.account])
+    const handleSubmit = () => {
         let method = 'post';
         if (account?.id !== undefined) {
             method = 'put';
@@ -33,11 +33,14 @@ export function AccountEdit(props: AccountEditProps) {
     };
 
     return (
-        <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-            <label>Name:
+        <form className="form-container" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+            <div className="form-field">
+                <label>Name:</label>
                 <input name="name" value={name} onChange={(e) => setName(e.target.value)}></input>
-            </label>
-            <button type="submit">{account?.id === undefined ? 'New' : 'Update'}</button>
+            </div>
+            <div className="form-actions">
+                <button type="submit">{account?.id === undefined ? 'New' : 'Update'}</button>
+            </div>
         </form>
     );
 

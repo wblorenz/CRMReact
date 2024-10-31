@@ -4,7 +4,7 @@ import { ContactEdit } from './ContactEdit.tsx';
 import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface ContactListProps {
     showEditing: boolean;
-    accountSelected?: (con: Contact) => void;
+    contactSelected?: (con: Contact) => void;
 }
 export function ContactsList(props: ContactListProps) {
     const [contacts, setContacts] = useState<Contact[]>();
@@ -36,7 +36,15 @@ export function ContactsList(props: ContactListProps) {
                     </thead>
                     <tbody>
                         {contacts.map(Contact =>
-                            <tr key={Contact.id} onClick={() => setContactEditing(Contact)}>
+                            <tr key={Contact.id} onClick={() => {
+                                if (props.showEditing) {
+                                    setContactEditing(Contact);
+                                }
+                                if (props.contactSelected) {
+                                    props.contactSelected(Contact);
+                                }
+                            }
+                            }>
                                 <td>{Contact.id}</td>
                                 <td>{Contact.name}</td>
                                 <td>{Contact.email}</td>

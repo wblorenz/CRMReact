@@ -18,6 +18,7 @@ namespace CRMReact.DTOs.Mappings
 
             CreateMap<TicketDTO, Ticket>().ForMember(x => x.Id, (y) => y.Ignore())
                     .ForMember(x => x.Contact, y => y.Ignore())
+                    .ForMember(x => x.ContactId, y => y.Ignore())
                     .AfterMap((dto, entity, context) =>
                     {
                         if (dto.ContactId != null && Guid.TryParse(dto.ContactId, out var guid))
@@ -27,7 +28,8 @@ namespace CRMReact.DTOs.Mappings
                         }
                     });
             CreateMap<Ticket, TicketDTO>()
-                .ForMember(x => x.Contact, y => y.Ignore());
+                .ForMember(x => x.Contact, y => y.Ignore())
+                .ForMember(x => x.ContactId, y => y.Ignore());
         }
     }
 }

@@ -15,6 +15,7 @@ namespace CRMReact.Domain.Contacts.Entities
         [StringLength(150)]
         public required string Name { get; set; }
         [StringLength(200)]
+        [EmailAddress()]
         public string? Email { get; set; }
         [StringLength(30)]
         public string? Telephone { get; set; }

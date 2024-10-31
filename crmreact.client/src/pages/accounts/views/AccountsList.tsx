@@ -23,8 +23,7 @@ export function AccountsList(props: AccountListProps) {
                 <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
                 <button type='button' onClick={() => populateAccounts(filter)}>Filter</button>
                 <br />
-                <table className="table table-striped" aria-labelledby="tableLabel">
-
+                <table className="table table-striped" aria-labelledby="tableLabel"> 
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -65,9 +64,9 @@ export function AccountsList(props: AccountListProps) {
     async function populateAccounts(fil?: string) {
         const response = await fetch(fil ? 'api/Account?filter=' + fil : 'api/Account');
         const data = await response.json();
-
         setAccounts(data);
     };
+
     function removeAccount(acc: Account) {
         if (confirm("Delete the account? " + acc.name)) {
             fetch('api/Account/' + acc.id, {

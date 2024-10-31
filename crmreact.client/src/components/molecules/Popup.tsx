@@ -1,12 +1,13 @@
 import './Popup.css';
+import { createContext, useContext } from 'react';
 export type PopupModel = {
     id: number;
-    content?: JSX.Element;
+    content?: React.ReactNode;
     title?: string;
 }
 export interface PopUpProps {
     id: number;
-    content?: JSX.Element;
+    content?: React.ReactNode;
     title?: string;
     remove: (id: number) => void;
 }
@@ -20,4 +21,20 @@ export function Popup(props: PopUpProps) {
             </div>
         </div>
     );
+}
+
+export interface PopupContextMethodParams {
+    id: number;
+    type: 'add' | 'remove';
+    title?: string;
+    content?: React.ReactNode;
+}
+export const PopupContext = createContext<((action: PopupContextMethodParams) => void)>(() => undefined);
+
+export function GetPopupContext() {
+    const popup = useContext(PopupContext);
+    if (popup === undefined) {
+        throw new Error("PopupContext not found.")
+    }
+    return popup;
 }

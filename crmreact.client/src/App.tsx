@@ -5,7 +5,8 @@ import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
 import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
 import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
-import { PopupContext, PopupContextMethodParams } from './context/PopupContext.tsx';
+import { PopupContext, PopupContextMethodParams } from './components/molecules/Popup.tsx';
+import TicketsList from './pages/tickets/views/TicketsList.tsx';
 
 const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): PopupModel[] => {
     switch (action.type) {
@@ -23,6 +24,7 @@ function App() {
         return [
             { description: 'Accounts', location: "account", view: (<AccountsList showEditing={true} />) },
             { description: 'Contacts', location: "contacts", view: (<ContactsList showEditing={true} />) },
+            { description: 'Tickets', location: "tickets", view: (<TicketsList showEditing={true} />) },
         ]
     }, []);
     const onClickMenu = function (sel: MenuItem) {

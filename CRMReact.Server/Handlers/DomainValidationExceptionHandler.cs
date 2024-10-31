@@ -1,6 +1,6 @@
 ﻿using CRMReact.Domain.Base.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.Json;
 
 namespace CRMReact.Server.Handlers
 {
@@ -20,11 +20,10 @@ namespace CRMReact.Server.Handlers
             logger.LogError(
                 "Error Message: {exceptionMessage}, Time of occurrence {time}",
                 exceptionMessage, DateTime.UtcNow);
-            // Return false to continue with the default behavior
-            // - or - return true to signal that this exception is handled
             if (exception is DomainValidationException)
             {
-                httpContext.Response.WriteAsJsonAsync(string.Join(" - ", ((DomainValidationException)exception).Validators.Select(x=>x.ErrorMessage)), cancellationToken);
+                httpContext.Response.StatusCode = 403;
+                httpContext.Response.WriteAsJsonAsync(JsonSerializer.Serialize(((DomainValidationException)exception).Validators), cancellationToken);
                 return ValueTask.FromResult(true);
             }
             return ValueTask.FromResult(false);

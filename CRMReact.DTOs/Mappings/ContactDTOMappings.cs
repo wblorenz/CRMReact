@@ -10,8 +10,13 @@ namespace CRMReact.DTOs.Mappings
         {
             CreateMap<ContactDTO, Contact>().ForMember(x => x.Id, (y) => y.Ignore())
                 .ForMember(x => x.Account, y => y.Ignore())
+                .ForMember(x => x.AccountId, y => y.Ignore())
                 .AfterMap((dto, entity, context) =>
                 {
+                    if (string.IsNullOrEmpty(dto.Email))
+                    {
+                        entity.Email = null;
+                    }
                     if (dto.AccountId != null && Guid.TryParse(dto.AccountId, out var guid))
                     {
                         entity.AccountId = guid;

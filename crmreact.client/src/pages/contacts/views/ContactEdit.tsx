@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Contact } from '../models/Contact.tsx'
 import { AccountsList } from '../../accounts/views/AccountsList.tsx';
-import { GetPopupContext } from '../../../context/PopupContext.tsx';
+import { GetPopupContext } from '../../../components/molecules/Popup.tsx';
+import { Lookup } from '../../../components/molecules/Lookup.tsx';
 import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 export interface ContactEditProps {
     contact: Contact | undefined;
@@ -63,35 +64,28 @@ export function ContactEdit(props: ContactEditProps) {
             }
         });
     };
-
-    const openPopupAccount = () => {
-        dispatch({
-            id: 1,
-            type: 'add',
-            title: 'Accounts',
-            content: (<AccountsList showEditing={false} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id: 1, type: 'remove' }) }} />)
-        });
-    }
     return (
         <div>
-            <form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-                <label>Name:
+            <form className="form-container" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+                <div className="form-field">
+                    <label>Name:</label>
                     <input name="name" value={name} onChange={(e) => setName(e.target.value)}></input>
-                </label>
-                <label>Email:
+                </div>
+                <div className="form-field">
+                    <label>Email:</label>
                     <input name="email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
-                </label>
-                <label>Telephone:
+                </div>
+                <div className="form-field">
+                    <label>Telephone:</label>
                     <input name="telephone" value={telephone} onChange={(e) => setTelephone(e.target.value)}></input>
-                </label>
-                <label>Account:
-                    <input name="account" value={account} readOnly></input>
-                </label>
-                <input type="hidden" name="account_id" value={accountId} readOnly></input>
-                <button type="button" onClick={() => openPopupAccount()}>Select Account</button>
-                <br />
-                {error != '' && <span style={{ color: 'red' }}>{error}<br /></span>}
-                <button type="submit">{contact?.id === undefined ? 'New' : 'Update'}</button>
+                </div>
+                <Lookup title='Accounts' id={1} value={account} label="Account:">
+                    <AccountsList showEditing={false} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id: 1, type: 'remove' }) }} />
+                </Lookup>
+                {error != '' && <span className="error-message">{error}<br /></span>}
+                <div className="form-actions">
+                    <button type="submit">{contact?.id === undefined ? 'New' : 'Update'}</button>
+                </div>
             </form>
         </div>
     );

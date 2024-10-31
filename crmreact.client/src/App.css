@@ -60,3 +60,55 @@ th, td {
 .table-striped tr:nth-child(even) {
     background-color: #b4e9e7;
 }
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 600px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+    .form-field label {
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .form-field input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-field.full-width {
+        grid-column: span 2;
+    }
+
+.form-actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-start;
+}
+
+    .form-actions button {
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .form-actions button:hover {
+            background-color: #0056b3;
+        }
+
+.error-message {
+    color: red;
+    grid-column: span 2;
+    text-align: center;
+}
