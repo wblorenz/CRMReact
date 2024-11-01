@@ -57,7 +57,8 @@ function TicketsList(props: TicketsListProps) {
         </div>;
     async function populateTickets(fil?: string) {
         const response = await fetch(fil ? 'api/Ticket?filter=' + fil : 'api/Ticket');
-        const data = await response.json();
+        const data2 = await response.json();
+        const data = data2.entities;
         for (let i = 0; i < data.length; i++) {
             data[i].date = new Date(data[i].date);
         }

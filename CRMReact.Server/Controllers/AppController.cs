@@ -3,6 +3,7 @@ using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Contacts.Entities;
 using CRMReact.DTOs;
 using CRMReact.DTOs.Interfaces;
+using CRMReact.Server.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
@@ -26,11 +27,17 @@ namespace CRMReact.Server.Controllers
         protected abstract Expression<Func<TEntity, TDTO>> SelectExpression { get; }
         protected abstract Expression<Func<TEntity, bool>> FindByExpression(string? filter);
         [HttpGet]
-        public IEnumerable<TDTO> GetAllEntities(string? filter)
+        public ReturnFromGetAllEntities<TDTO> GetAllEntities(string? filter, int? from, int? to)
         {
-            return Repository.FindByExpression(FindByExpression(filter)).Select(SelectExpression);
+            var ret = new ReturnFromGetAllEntities<TDTO>
+            {
+                Count = Repository.FindByExpression(FindByExpression(filter)).Count(),
+                Entities = Repository.FindByExpression(FindByExpression(filter)).Skip(from.GetValueOrDefault(0)).Take(to.GetValueOrDefault(int.MaxValue)).Select(SelectExpression)
+            };
+            return ret;
         }
 
+        
         [HttpPut]
         public async Task<ActionResult> Edit([FromBody] TDTO dto)
         {

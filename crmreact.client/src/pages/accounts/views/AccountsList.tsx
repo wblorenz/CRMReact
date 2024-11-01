@@ -65,7 +65,7 @@ export function AccountsList(props: AccountListProps) {
     async function populateAccounts(fil?: string) {
         const response = await fetch(fil ? 'api/Account?filter=' + fil : 'api/Account');
         const data = await response.json();
-        setAccounts(data);
+        setAccounts(data.entities);
     };
 
     function removeAccount(acc: Account) {

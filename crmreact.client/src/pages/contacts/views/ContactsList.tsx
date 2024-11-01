@@ -75,7 +75,7 @@ export function ContactsList(props: ContactListProps) {
     async function populateContacts(fil: string) {
         const response = await fetch(fil ? 'api/Contact?filter=' + fil : 'api/Contact');
         const data = await response.json();
-        setContacts(data);
+        setContacts(data.entities);
     };
     function removeContact(acc: Contact) {
         if (confirm("Delete the Contact? " + acc.name)) {
