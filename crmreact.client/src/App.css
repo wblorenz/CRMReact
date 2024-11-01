@@ -107,6 +107,10 @@ th, td {
             background-color: #0056b3;
         }
 
+        .form-actions button:disabled {
+            background-color: grey;
+            cursor: default;
+        }
 .error-message {
     color: red;
     grid-column: span 2;
