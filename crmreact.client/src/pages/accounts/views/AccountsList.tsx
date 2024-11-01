@@ -18,11 +18,12 @@ export function AccountsList(props: AccountListProps) {
         ? <p><em>Loading... </em></p>
         :
         <div>
-            {props.showEditing && !accountEditing && < div > <input type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} /></div>}
+            {props.showEditing && !accountEditing && < div className="form-actions"> <button type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} >New Account</button></div>}
             {!accountEditing && < div >
+                <div className="form-actions">
                 <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
                 <button type='button' onClick={() => populateAccounts(filter)}>Filter</button>
-                <br />
+                </div>
                 <table className="table table-striped" aria-labelledby="tableLabel"> 
                     <thead>
                         <tr>

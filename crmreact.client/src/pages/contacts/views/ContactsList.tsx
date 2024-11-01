@@ -18,11 +18,14 @@ export function ContactsList(props: ContactListProps) {
         ? <p><em>Loading... </em></p>
         :
         <div>
-            {props.showEditing && !contactEditing && < div > <input type="button" value="New Contact" onClick={() => { setContactEditing(new Contact()) }} /></div>}
+            {props.showEditing && !contactEditing && < div className="form-actions">
+                <button type="button" onClick={() => { setContactEditing(new Contact()) }} >New Contact</button>
+            </div>}
             {contactEditing === undefined && < div >
-                <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
-                <button type='button' onClick={() => populateContacts(filter)}>Filter</button>
-                <br />
+                <div className="form-actions">
+                    <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
+                    <button type='button' onClick={() => populateContacts(filter)}>Filter</button>
+                </div>
                 <table className="table table-striped" aria-labelledby="tableLabel">
                     <thead>
                         <tr>

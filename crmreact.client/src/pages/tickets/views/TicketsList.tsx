@@ -17,11 +17,12 @@ function TicketsList(props: TicketsListProps) {
         ? <p><em>Loading... </em></p>
         :
         <div>
-            {props.showEditing && !ticketEditing && < div > <input type="button" value="New ticket" onClick={() => { setTicketEditing(new Ticket('','')) }} /></div>}
+            {props.showEditing && !ticketEditing && <div className="form-actions"> <button type="button" onClick={() => { setTicketEditing(new Ticket('', '')) }} >New Ticket</button></div>}
             {!ticketEditing && < div >
-                <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
-                <button type='button' onClick={() => populateTickets(filter)}>Filter</button>
-                <br />
+                <div className="form-actions">
+                    <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
+                    <button type='button' onClick={() => populateTickets(filter)}>Filter</button>
+                </div>
                 <table className="table table-striped" aria-labelledby="tableLabel">
                     <thead>
                         <tr>

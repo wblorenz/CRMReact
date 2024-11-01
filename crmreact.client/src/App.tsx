@@ -3,6 +3,7 @@ import './App.css';
 import { Menu, MenuItem } from './components/molecules/Menu.tsx';
 import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
 import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
+import { DashboardView } from './pages/dashboard/views/DashboardView.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
 import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
 import { PopupContext, PopupContextMethodParams } from './components/molecules/Popup.tsx';
@@ -22,6 +23,7 @@ function App() {
     const [popups, dispatch] = useReducer(addPopup, []);
     const menuItems = useMemo(() => {
         return [
+            { description: 'Dashboard', location: "dashboard", view: (<DashboardView />) },
             { description: 'Accounts', location: "account", view: (<AccountsList showEditing={true} />) },
             { description: 'Contacts', location: "contacts", view: (<ContactsList showEditing={true} />) },
             { description: 'Tickets', location: "tickets", view: (<TicketsList showEditing={true} />) },
