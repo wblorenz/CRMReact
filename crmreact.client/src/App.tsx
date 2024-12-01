@@ -42,27 +42,27 @@ function App() {
     return (
         <PopupContext.Provider value={dispatch}>
             <QuickMessageContext.Provider value={setQuickMsg}>
-                <div style={{ height: "98vh", boxSizing: "border-box" }}>
-                    <div className='title'><h1>React CRM</h1></div>
-                    <div className='Home'>
-                        <Menu items={menuItems} onClickMenu={onClickMenu} />
-                        <div className='container'>
-                            {view}
+                    <div style={{ height: "98vh", boxSizing: "border-box" }}>
+                        <div className='title'><h1>React CRM</h1></div>
+                        <div className='Home'>
+                            <Menu items={menuItems} onClickMenu={onClickMenu} />
+                            <div className='container'>
+                                {view}
+                            </div>
                         </div>
+                        <div>
+                            {popups.map((pop) => (
+                                <Popup content={pop.content} title={pop.title} id={pop.id} key={pop.id} remove={() => dispatch({
+                                    id: pop.id,
+                                    title: pop.title,
+                                    type: 'remove'
+                                })} />
+                            ))}
+                        </div>
+                        {quickMsg !== '' && <QuickMessage message={quickMsg} removeMessage={() => setQuickMsg('')}></QuickMessage>}
                     </div>
-                    <div>
-                        {popups.map((pop) => (
-                            <Popup content={pop.content} title={pop.title} id={pop.id} key={pop.id} remove={() => dispatch({
-                                id: pop.id,
-                                title: pop.title,
-                                type: 'remove'
-                            })} />
-                        ))}
-                    </div>
-                    {quickMsg !== '' && <QuickMessage message={quickMsg} removeMessage={() => setQuickMsg('')}></QuickMessage>}
-                </div>
             </QuickMessageContext.Provider>
-        </PopupContext.Provider>
+        </PopupContext.Provider >
     );
 }
 

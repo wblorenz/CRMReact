@@ -1,15 +1,15 @@
 import './Popup.css';
 import { createContext, useContext } from 'react';
 export type PopupModel = {
-    id: number;
+    id: string;
     content?: React.ReactNode;
     title?: string;
 }
 export interface PopUpProps {
-    id: number;
+    id: string;
     content?: React.ReactNode;
     title?: string;
-    remove: (id: number) => void;
+    remove: (id: string) => void;
 }
 export function Popup(props: PopUpProps) {
     return (
@@ -24,7 +24,7 @@ export function Popup(props: PopUpProps) {
 }
 
 export interface PopupContextMethodParams {
-    id: number;
+    id: string;
     type: 'add' | 'remove';
     title?: string;
     content?: React.ReactNode;

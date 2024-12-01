@@ -10,6 +10,7 @@ export interface ContactEditProps {
 }
 export function ContactEdit(props: ContactEditProps) {
     const dispatch = GetPopupContext();
+    const guid = crypto.randomUUID();    
     const [contact, setContact] = useState<Contact | undefined>(props.contact);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -79,8 +80,8 @@ export function ContactEdit(props: ContactEditProps) {
                     <label>Telephone:</label>
                     <input name="telephone" value={telephone} onChange={(e) => setTelephone(e.target.value)}></input>
                 </div>
-                <Lookup title='Accounts' id={1} value={account} label="Account:">
-                    <AccountsList showEditing={false} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id: 1, type: 'remove' }) }} />
+                <Lookup title='Accounts' id={guid} value={account} label="Account:">
+                    <AccountsList showEditing={false} accountSelected={(e) => { setAccountId(e.id); setAccount(e.name); setShowAccountSelect(!showAccountSelect); dispatch({ id: guid, type: 'remove' }) }} />
                 </Lookup>
                 {error != '' && <span className="error-message">{error}<br /></span>}
                 <div className="form-actions">

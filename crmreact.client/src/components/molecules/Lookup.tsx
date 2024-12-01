@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { GetPopupContext } from './Popup';
 export interface LookupProps {
     title: string;
-    id: number;
+    id: string;
     value: string;
     label: string;
 }

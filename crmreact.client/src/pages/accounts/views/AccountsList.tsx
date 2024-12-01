@@ -16,7 +16,7 @@ export function AccountsList(props: AccountListProps) {
     const message = GetQuickMessageContext();
     useEffect(() => {
         populateAccounts(filter, currentPage);
-    }, [filter, currentPage]);
+    }, []);
     const contents = accounts === undefined
         ? <p><em>Loading... </em></p>
         :
@@ -24,36 +24,38 @@ export function AccountsList(props: AccountListProps) {
             {props.showEditing && !accountEditing && < div className="form-actions"> <button type="button" value="New Account" onClick={() => { setAccountEditing(new Account()) }} >New Account</button></div>}
             {!accountEditing && < div >
                 <div className="form-actions">
-                    <input name='filter' value={filter} onChange={(e) => setFilter(e.target.value)}></input>
+                    <input name='filter' value={filter} placeholder='teste' onChange={(e) => setFilter(e.target.value)}></input>
                     <button type='button' onClick={() => populateAccounts(filter, currentPage)}>Filter</button>
                 </div>
-                <table className="table table-striped" aria-labelledby="tableLabel">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            {props.showEditing && <th></th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {accounts.map(account =>
-                            <tr key={account.id} onClick={() => {
-                                if (props.showEditing) {
-                                    setAccountEditing(account);
-                                }
-                                if (props.accountSelected) {
-                                    props.accountSelected(account);
-                                }
-                            }
-                            } className="recordList">
-                                <td>{account.id}</td>
-                                <td>{account.name}</td>
-                                {props.showEditing && <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>}
+                <div style={{ overflow: 'auto' }}>
+                    <table className="table table-striped" aria-labelledby="tableLabel">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                {props.showEditing && <th></th>}
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={(e) => { setCurrentPage(e) } } />
+                        </thead>
+                        <tbody>
+                            {accounts.map(account =>
+                                <tr key={account.id} onClick={() => {
+                                    if (props.showEditing) {
+                                        setAccountEditing(account);
+                                    }
+                                    if (props.accountSelected) {
+                                        props.accountSelected(account);
+                                    }
+                                }
+                                } className="recordList">
+                                    <td>{account.id}</td>
+                                    <td>{account.name}</td>
+                                    {props.showEditing && <td className="exclude" onClick={(e) => { e.stopPropagation(); removeAccount(account) }}>Remove</td>}
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                    <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={(e) => { setCurrentPage(e) }} />
+                </div>
             </div>}
             {props.showEditing && accountEditing && <div>
                 <button type="button" value="Return" onClick={() => setAccountEditing(undefined)} >Return</button>
@@ -67,9 +69,9 @@ export function AccountsList(props: AccountListProps) {
     );
 
     async function populateAccounts(fil: string, page: number) {
-        const from = page*10;
+        const from = page * 10;
         const to = from + 10;
-        let addr = 'api/Account?from='+from+'&to='+to;
+        let addr = 'api/Account?from=' + from + '&to=' + to;
         if (fil !== "") {
             addr += '&filter=' + fil;
         }

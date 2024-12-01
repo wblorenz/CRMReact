@@ -21,6 +21,7 @@ export function TicketEdit(props: TicketEditProps) {
     const [error, setError] = useState<string>("");
     const [showContactSelect, setShowContactSelect] = useState<boolean>(false);
     const message = GetQuickMessageContext();
+    const guid = crypto.randomUUID();
     const dispatch = GetPopupContext();
     useEffect(() => {
         if (props.ticket?.title !== undefined) {
@@ -97,8 +98,8 @@ export function TicketEdit(props: TicketEditProps) {
                 <label>Date:</label>
                 <input type="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
-            <Lookup title='Contact' id={1} value={contact} label="Contact:">
-                <ContactsList showEditing={false} contactSelected={(e) => { setContactId(e.id); setContact(e.name); setShowContactSelect(!showContactSelect); dispatch({ id: 1, type: 'remove' }) }} />
+            <Lookup title='Contact' id={guid} value={contact} label="Contact:">
+                <ContactsList showEditing={false} contactSelected={(e) => { setContactId(e.id); setContact(e.name); setShowContactSelect(!showContactSelect); dispatch({ id: guid, type: 'remove' }) }} />
             </Lookup>
             {error && (
                 <span className="error-message">{error}</span>
