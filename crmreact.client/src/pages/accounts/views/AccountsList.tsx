@@ -54,7 +54,7 @@ export function AccountsList(props: AccountListProps) {
                             )}
                         </tbody>
                     </table>
-                    <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={(e) => { setCurrentPage(e) }} />
+                    <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={(e) => { setCurrentPage(e); populateAccounts(filter, e); }} />
                 </div>
             </div>}
             {props.showEditing && accountEditing && <div>
