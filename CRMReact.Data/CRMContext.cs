@@ -2,6 +2,7 @@
 using CRMReact.Domain.Base.Exceptions;
 using CRMReact.Domain.Contacts.Entities;
 using CRMReact.Domain.Tickets.Entities;
+using CRMReact.Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,7 @@ namespace CRMReact.Data
         internal DbSet<Account> Accounts { get; private set; }
         internal DbSet<Contact> Contacts { get; private set; }
         internal DbSet<Ticket> Tickets { get; private set; }
+        internal DbSet<User> Users { get; private set; }
         public CRMContext(DbContextOptions options) : base(options)
         {
         }

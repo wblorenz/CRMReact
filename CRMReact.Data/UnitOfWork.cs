@@ -1,10 +1,12 @@
 ﻿using CRMReact.Data.Accounts.Repositories;
 using CRMReact.Data.Contacts.Repositories;
 using CRMReact.Data.Tickets.Repositories;
+using CRMReact.Data.Users.Repositories;
 using CRMReact.Domain.Accounts.Repositories;
 using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Contacts.Repositories;
 using CRMReact.Domain.Tickets.Repositories;
+using CRMReact.Domain.Users.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,8 @@ namespace CRMReact.Data
         private ITicketRepository? _tickets;
         public ITicketRepository Tickets => _tickets ??= new TicketRepository(crmContext);
 
+        private IUserRepository? _users;
+        public IUserRepository Users => _users ??= new UserRepository(crmContext);
         private readonly CRMContext crmContext;
         public UnitOfWork(CRMContext context) => crmContext = context;
         public Task<int> Commit()
