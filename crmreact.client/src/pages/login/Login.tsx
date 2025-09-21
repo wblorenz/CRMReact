@@ -20,7 +20,17 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
             setError('Please enter both name and password.');
             return;
         }
-        const response = await fetch('api/User/Login?name=' + name + '&password=' + password);
+        const response = await fetch('api/User/Login',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }, body: JSON.stringify({
+                    name: name,
+                    password: password
+                })
+            });
         if (response.status !== 200) {
             setError("Incorrect user name or password");
             return;

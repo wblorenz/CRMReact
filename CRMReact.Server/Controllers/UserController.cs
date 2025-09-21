@@ -20,11 +20,16 @@ namespace CRMReact.Server.Controllers
     [ApiController]
     public class UserController(IUnitOfWork unitOfWork, IMapper mapper) : AppController<User, UserDTO>(unitOfWork, unitOfWork.Users, mapper)
     {
-        [HttpGet("Login")]
-        public async Task<ActionResult> Login(string name, string password)
+        public class LoginRequest
         {
-            var comparingPassword = password; // In real applications, use hashed passwords and secure comparison
-            var user = await Repository.FindByExpression(x => x.Name == name && x.Password == comparingPassword).ToListAsync();
+            public string? Name { get; set; }
+            public string? Password { get; set; }
+        }
+        [HttpPost("Login")]
+        public async Task<ActionResult> Login([FromBody] LoginRequest request)
+        {
+            var comparingPassword = request.Password; // In real applications, use hashed passwords and secure comparison
+            var user = await Repository.FindByExpression(x => x.Name == request.Name && x.Password == comparingPassword).ToListAsync();
             if (user == null || user.Count == 0)
             {
                 return NotFound("Invalid credentials");
