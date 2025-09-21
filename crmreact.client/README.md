@@ -1,50 +1,36 @@
-# React + TypeScript + Vite
+# React CRM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small CRM (Customer Relationship Management) web application built with **React**, **TypeScript**, and **Vite**. 
+This project is designed to work as the frontend for a .NET 9 backend API, providing a responsive and interactive user experience for managing accounts, contacts, tickets.
+The default user is `admin` with password `admin`.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Secure login and logoff with session management.
+- **Dashboard**: Overview of CRM data.
+- **Accounts Management**: View and edit customer accounts.
+- **Contacts Management**: View and edit contacts related to accounts.
+- **Tickets Management**: Track and manage support tickets.
+- **Popup System**: Contextual popups for additional information or actions.
+- **Quick Messages**: Temporary notifications for user feedback.
+- **Responsive UI**: Clean and modern interface.
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [React](https://react.dev/) (with Hooks and Context API)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/) (for fast development and HMR)
+- [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (backend API, see `CRMReact.Server`)
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Prerequisites
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [npm](https://www.npmjs.com/)
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (for backend)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Installation
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Clone the repository:**
+2. **Run the aspire project on `CRMReact.AppHost`**
