@@ -1,6 +1,7 @@
 ﻿using CRMReact.Domain.Accounts.Repositories;
 using CRMReact.Domain.Contacts.Repositories;
 using CRMReact.Domain.Tickets.Repositories;
+using CRMReact.Domain.Users.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace CRMReact.Domain.Base.Interfaces
         IAccountRepository Accounts { get; }
         IContactRepository Contacts { get; }
         ITicketRepository Tickets { get; }
+        IUserRepository Users { get; }
         Task<int> Commit();
     }
 }

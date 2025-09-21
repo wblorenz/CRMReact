@@ -4,6 +4,7 @@ using CRMReact.Domain.Contacts.Entities;
 using CRMReact.DTOs;
 using CRMReact.DTOs.Interfaces;
 using CRMReact.Server.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
@@ -27,6 +28,7 @@ namespace CRMReact.Server.Controllers
         protected abstract Expression<Func<TEntity, TDTO>> SelectExpression { get; }
         protected abstract Expression<Func<TEntity, bool>> FindByExpression(string? filter);
         [HttpGet]
+        [Authorize]
         public ReturnFromGetAllEntities<TDTO> GetAllEntities(string? filter, int? from, int? to)
         {
             var ret = new ReturnFromGetAllEntities<TDTO>
@@ -39,6 +41,7 @@ namespace CRMReact.Server.Controllers
 
         
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> Edit([FromBody] TDTO dto)
         {
             if (!Guid.TryParse(dto.Id ?? "", out var localGuid))
@@ -58,6 +61,7 @@ namespace CRMReact.Server.Controllers
             return Ok(dto);
         }
         [HttpDelete("{id?}")]
+        [Authorize]
         public async Task<ActionResult> Delete(Guid? id)
         {
             var acc = Repository.FindByExpression(x => x.Id == id).FirstOrDefault();
@@ -77,6 +81,7 @@ namespace CRMReact.Server.Controllers
             return Ok(acc);
         }
         [HttpGet("{id?}")]
+        [Authorize]
         public ActionResult Get(Guid? id)
         {
             var acc = Repository.FindByExpression(x => x.Id == id).Select(SelectExpression).FirstOrDefault();
@@ -87,6 +92,7 @@ namespace CRMReact.Server.Controllers
             return Ok(acc);
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Insert([FromBody] TDTO dto)
         {
             var acc = Mapper.Map<TEntity>(dto, x =>
