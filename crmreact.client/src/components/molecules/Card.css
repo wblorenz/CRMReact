@@ -1,0 +1,18 @@
+.card-header {
+    text-align: center;
+    font-size: 26px;
+}
+.card-body {
+text-align: center;
+font-size:18px;
+font-weight: 400;
+
+}
+.card {
+    background-color: #F2F2F2;
+    border: 1px #008080 solid;
+    border-radius: 12px;
+    padding: 17px;
+    min-width: 220px;
+    flex: 1 1 220px;
+}

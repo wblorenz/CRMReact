@@ -16,12 +16,6 @@ namespace CRMReact.Data
         {
         }
 
-        public override int SaveChanges()
-        {
-            ValidateErrors();
-            return base.SaveChanges();
-        }
-
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             ValidateErrors();
@@ -32,12 +26,6 @@ namespace CRMReact.Data
         {
             ValidateErrors();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            ValidateErrors();
-            return base.SaveChangesAsync(cancellationToken);
         }
 
         private void ValidateErrors()
