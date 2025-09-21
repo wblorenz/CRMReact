@@ -91,7 +91,7 @@ function App() {
     const [quickMsg, setQuickMsg] = useState<string>('');
     return <>
         {
-            authStatus.isAuthenticated && <PopupContext.Provider value={dispatch}>
+            !authStatus.isLoading && authStatus.isAuthenticated && <PopupContext.Provider value={dispatch}>
                 <QuickMessageContext.Provider value={setQuickMsg}>
                     <div style={{ height: "98vh", boxSizing: "border-box" }}>
                         <div className='title'>
@@ -119,7 +119,10 @@ function App() {
             </PopupContext.Provider>
         }
         {
-            !authStatus.isAuthenticated && <Login setState={setAuthStatus} />
+            !authStatus.isLoading && !authStatus.isAuthenticated && <Login setState={setAuthStatus} />
+        }
+        {
+            authStatus.isLoading && <div>Loading...</div>
         }
     </>;
 }
