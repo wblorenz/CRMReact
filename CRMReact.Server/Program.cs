@@ -20,7 +20,7 @@ builder.Services.AddDbContext<CRMContext>(x =>
 {
     x.UseSqlite("Data Source=database/database.db");
 });
-builder.Services.AddAutoMapper([typeof(IDTO).Assembly]);
+builder.Services.AddAutoMapper(x => x.AddMaps([typeof(IDTO).Assembly]));
 builder.Services.AddExceptionHandler<DomainValidationExceptionHandler>();
 DataServices.AddDataServices(builder.Services);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

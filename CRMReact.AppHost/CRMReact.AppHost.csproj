@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
+    <PackageReference Include="KubernetesClient" Version="19.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CRMReact.Server\CRMReact.Server.csproj" />

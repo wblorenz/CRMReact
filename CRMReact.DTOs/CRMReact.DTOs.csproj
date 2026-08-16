@@ -8,6 +8,6 @@
     <ProjectReference Include="..\CRMReact.Domain\CRMReact.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
   </ItemGroup>
 </Project>
