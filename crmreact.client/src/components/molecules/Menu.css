@@ -1,19 +1,85 @@
-.Menu {
-    list-style: none;
-    min-width: 230px;
-    float: left;
-    padding: 25px;
-    margin: 15px 0 0 0;
+.menu-sidebar {
+    width: 240px;
+    min-width: 240px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 0.85rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
 }
 
-    .Menu > li {
-        border: 1px #008080 solid;
-        padding: 3px;
-        cursor: pointer;
-        transition: background-color ease-in-out .3s;
-    }
+.menu-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 0.75rem 0.6rem 0.75rem;
+    margin-bottom: 0.25rem;
+}
 
-        .Menu > li:hover {
-            background-color: #B0D4F1;
-            transition: background-color ease-in-out .3s;
-        }
+.menu-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.menu-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: var(--transition-normal);
+    position: relative;
+    border: 1px solid transparent;
+    user-select: none;
+}
+
+.menu-nav-item:hover {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-primary);
+    transform: translateX(2px);
+}
+
+.menu-nav-item.active {
+    background-color: var(--primary-subtle);
+    color: var(--primary);
+    font-weight: 600;
+    border-color: var(--primary-subtle-border);
+}
+
+.menu-item-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    opacity: 0.85;
+    transition: var(--transition-fast);
+}
+
+.menu-nav-item.active .menu-item-icon-wrapper {
+    opacity: 1;
+    color: var(--primary);
+}
+
+.menu-item-label {
+    flex-grow: 1;
+}
+
+.menu-active-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary);
+}

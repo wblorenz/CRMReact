@@ -1,17 +1,43 @@
-.quickMessage {
+.quick-message-toast {
     position: fixed;
-    background: #F2F2F2;
-    width: 200px;
-    top: 0px;
-    padding: 25px;
-    transition: all 0.5s linear;
-    left: calc(50% - 200px);
-    opacity: 0%;
-    border: 1px #008080 solid;
-    border-radius: 12px;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 0.6rem 1.25rem 0.6rem 0.85rem;
+    box-shadow: var(--shadow-lg);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.quickMessageMoving {
-    opacity: 100%;
-    top: 40px;
+.quick-message-toast.quick-message-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.quick-message-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--success-subtle);
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.quick-message-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
 }

@@ -19,7 +19,8 @@ const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): Popup
             return popups.filter((i) => i.id !== action.id);
         }
     }
-}
+};
+
 function App() {
     const [popups, dispatch] = useReducer(addPopup, []);
     const menuItems = useMemo(() => {
@@ -28,36 +29,37 @@ function App() {
             { description: 'Accounts', location: "account", view: (<AccountsList showEditing={true} />) },
             { description: 'Contacts', location: "contacts", view: (<ContactsList showEditing={true} />) },
             { description: 'Tickets', location: "tickets", view: (<TicketsList showEditing={true} />) },
-        ]
+        ];
     }, []);
+
+    const [selected, setSelected] = useState<string>(menuItems[0].location);
+    const [view, setView] = useState<JSX.Element>(menuItems[0].view);
+    const [quickMsg, setQuickMsg] = useState<string>('');
+
     const onClickMenu = function (sel: MenuItem) {
         if (sel.location !== selected) {
             setSelected(sel.location);
             setView(sel.view);
         }
-    }
+    };
+
     const [authStatus, setAuthStatus] = useState<LoginModel>({
         isAuthenticated: false,
         user: "",
-        isLoading: true // Start in a loading state
+        isLoading: true
     });
 
     useEffect(() => {
-        // This function will be called when the component mounts
         const checkAuth = async () => {
             try {
-                // The browser automatically sends the auth cookie with the request
                 const response = await fetch('/api/User/check-status');
-
-                if (response.ok) { // Status is 200-299
+                if (response.ok) {
                     const data = await response.json();
                     setAuthStatus({ isAuthenticated: true, user: data.username, isLoading: false });
                 } else {
-                    // This handles 401 Unauthorized and other errors
                     setAuthStatus({ isAuthenticated: false, user: "", isLoading: false });
                 }
             } catch (error) {
-                // Network errors, etc.
                 console.error("Authentication check failed:", error);
                 setAuthStatus({ isAuthenticated: false, user: "", isLoading: false });
             }
@@ -65,17 +67,15 @@ function App() {
 
         checkAuth();
     }, []);
+
     const handleLogoff = async () => {
         try {
-            // 1. Call your backend endpoint to invalidate the session/cookie.
-            // Make sure to replace '/api/User/logout' with your actual endpoint.
             await fetch('/api/User/Logoff', {
                 method: 'POST',
             });
         } catch (error) {
             console.error("Logoff request failed:", error);
         } finally {
-            // 2. ALWAYS update the state to log the user out on the client-side.
             setAuthStatus({
                 isAuthenticated: false,
                 user: "",
@@ -84,47 +84,92 @@ function App() {
         }
     };
 
-    
+    const getInitials = (username: string) => {
+        if (!username) return 'U';
+        return username.substring(0, 2).toUpperCase();
+    };
 
-    const [selected, setSelected] = useState<string>(menuItems[0].location);
-    const [view, setView] = useState<JSX.Element>(menuItems[0].view);
-    const [quickMsg, setQuickMsg] = useState<string>('');
-    return <>
-        {
-            !authStatus.isLoading && authStatus.isAuthenticated && <PopupContext.Provider value={dispatch}>
-                <QuickMessageContext.Provider value={setQuickMsg}>
-                    <div style={{ height: "98vh", boxSizing: "border-box" }}>
-                        <div className='title'>
-                            <h1>React CRM</h1>
-                            <span onClick={handleLogoff} style={{ cursor: 'pointer' }}>Logoff: {authStatus.user}</span>
-                        </div>
-                        <div className='Home'>
-                            <Menu items={menuItems} onClickMenu={onClickMenu} />
-                            <div className='container'>
-                                {view}
+    return (
+        <>
+            {!authStatus.isLoading && authStatus.isAuthenticated && (
+                <PopupContext.Provider value={dispatch}>
+                    <QuickMessageContext.Provider value={setQuickMsg}>
+                        <div className="crm-app-shell">
+                            <header className="crm-header">
+                                <div className="crm-brand">
+                                    <div className="crm-logo-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    </div>
+                                    <div className="crm-brand-text">
+                                        <span className="crm-brand-title">Personal CRM</span>
+                                        <span className="crm-brand-subtitle">Workspace</span>
+                                    </div>
+                                </div>
+
+                                <div className="crm-header-user">
+                                    <div className="user-profile-badge">
+                                        <div className="user-avatar">{getInitials(authStatus.user)}</div>
+                                        <span className="user-name">{authStatus.user}</span>
+                                    </div>
+                                    <button className="crm-logout-btn" onClick={handleLogoff} title="Sign Out">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                        </svg>
+                                        <span>Sign out</span>
+                                    </button>
+                                </div>
+                            </header>
+
+                            <main className="crm-main-layout">
+                                <Menu items={menuItems} selected={selected} onClickMenu={onClickMenu} />
+                                <section className="crm-content-card">
+                                    {view}
+                                </section>
+                            </main>
+
+                            <div className="crm-popups-layer">
+                                {popups.map((pop) => (
+                                    <Popup
+                                        content={pop.content}
+                                        title={pop.title}
+                                        id={pop.id}
+                                        key={pop.id}
+                                        remove={() => dispatch({
+                                            id: pop.id,
+                                            title: pop.title,
+                                            type: 'remove'
+                                        })}
+                                    />
+                                ))}
                             </div>
+
+                            {quickMsg !== '' && (
+                                <QuickMessage message={quickMsg} removeMessage={() => setQuickMsg('')} />
+                            )}
                         </div>
-                        <div>
-                            {popups.map((pop) => (
-                                <Popup content={pop.content} title={pop.title} id={pop.id} key={pop.id} remove={() => dispatch({
-                                    id: pop.id,
-                                    title: pop.title,
-                                    type: 'remove'
-                                })} />
-                            ))}
-                        </div>
-                        {quickMsg !== '' && <QuickMessage message={quickMsg} removeMessage={() => setQuickMsg('')}></QuickMessage>}
-                    </div>
-                </QuickMessageContext.Provider>
-            </PopupContext.Provider>
-        }
-        {
-            !authStatus.isLoading && !authStatus.isAuthenticated && <Login setState={setAuthStatus} />
-        }
-        {
-            authStatus.isLoading && <div>Loading...</div>
-        }
-    </>;
+                    </QuickMessageContext.Provider>
+                </PopupContext.Provider>
+            )}
+
+            {!authStatus.isLoading && !authStatus.isAuthenticated && (
+                <Login setState={setAuthStatus} />
+            )}
+
+            {authStatus.isLoading && (
+                <div className="crm-loading-screen">
+                    <div className="crm-spinner" />
+                    <span>Loading CRM...</span>
+                </div>
+            )}
+        </>
+    );
 }
 
 export default App;

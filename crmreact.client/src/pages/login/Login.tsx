@@ -1,78 +1,113 @@
 import React, { useState } from 'react';
-
+import './Login.css';
 
 export interface LoginModel {
     isAuthenticated: boolean;
     user: string;
     isLoading: boolean;
 }
+
 export function Login(props: { setState: React.Dispatch<React.SetStateAction<LoginModel>> }) {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
-        // TODO: Replace with actual authentication logic
-        if (name === '' || password === '') {
+        if (name.trim() === '' || password.trim() === '') {
             setError('Please enter both name and password.');
             return;
         }
-        const response = await fetch('api/User/Login',
-            {
+
+        setIsSubmitting(true);
+        try {
+            const response = await fetch('api/User/Login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }, body: JSON.stringify({
+                },
+                body: JSON.stringify({
                     name: name,
                     password: password
                 })
             });
-        if (response.status !== 200) {
-            setError("Incorrect user name or password");
-            return;
-        }
-        const data = await response.json();
-        if (data && data.name) {
-            props.setState({ isAuthenticated: true, user: data.name, isLoading: false });
-        }
-        else {
-            setError("Incorrect user name or password");
+
+            if (response.status !== 200) {
+                setError("Incorrect user name or password");
+                setIsSubmitting(false);
+                return;
+            }
+
+            const data = await response.json();
+            if (data && data.name) {
+                props.setState({ isAuthenticated: true, user: data.name, isLoading: false });
+            } else {
+                setError("Incorrect user name or password");
+            }
+        } catch (err) {
+            console.error("Login request failed", err);
+            setError("Failed to connect to authentication server.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="login-page">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit} className="login-form">
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        id="name"
-                        type="name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
+        <div className="login-container">
+            <div className="login-card">
+                <div className="login-header">
+                    <div className="login-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h2 className="login-title">Personal CRM</h2>
+                    <p className="login-subtitle">Sign in to manage your relationships & tickets</p>
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                        autoComplete="current-password"
-                    />
-                </div>
-                {error && <div className="error-message">{error}</div>}
-                <button type="submit">Login</button>
-            </form>
+
+                <form onSubmit={handleSubmit} className="login-form">
+                    <div className="form-field">
+                        <label htmlFor="name">Username</label>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="e.g. admin"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            required
+                            autoComplete="username"
+                            disabled={isSubmitting}
+                        />
+                    </div>
+
+                    <div className="form-field">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required
+                            autoComplete="current-password"
+                            disabled={isSubmitting}
+                        />
+                    </div>
+
+                    {error && <div className="error-message">{error}</div>}
+
+                    <button type="submit" className="login-btn-submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Signing in...' : 'Sign in'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
-};
+}
