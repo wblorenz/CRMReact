@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Menu.module.css';
 
 export class MenuItem {
@@ -12,6 +12,8 @@ export interface MenuProp {
     items: MenuItem[];
     selected?: string;
     onClickMenu: (selected: MenuItem) => void;
+    isCollapsed?: boolean;
+    onToggleCollapse?: (collapsed: boolean) => void;
 }
 
 const getMenuIcon = (location: string) => {
@@ -58,10 +60,60 @@ const getMenuIcon = (location: string) => {
 };
 
 export function Menu(prop: MenuProp) {
+    const [collapsedInternal, setCollapsedInternal] = useState<boolean>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('crm_menu_collapsed');
+            return saved === 'true';
+        }
+        return false;
+    });
+
+    const isCollapsed = prop.isCollapsed !== undefined ? prop.isCollapsed : collapsedInternal;
+
+    const handleToggle = () => {
+        const nextState = !isCollapsed;
+        setCollapsedInternal(nextState);
+        try {
+            localStorage.setItem('crm_menu_collapsed', String(nextState));
+        } catch {
+            // ignore localStorage quota errors
+        }
+        if (prop.onToggleCollapse) {
+            prop.onToggleCollapse(nextState);
+        }
+    };
+
     const items = prop.items;
     return (
-        <aside className={styles.sidebar}>
-            <div className={styles.sectionLabel}>MAIN MENU</div>
+        <aside
+            className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}
+            aria-label="Main Navigation"
+        >
+            <div className={styles.header}>
+                <span className={styles.sectionLabel}>MAIN MENU</span>
+                <button
+                    type="button"
+                    className={styles.toggleBtn}
+                    onClick={handleToggle}
+                    title={isCollapsed ? "Show main menu" : "Hide main menu"}
+                    aria-label={isCollapsed ? "Show main menu" : "Hide main menu"}
+                    aria-expanded={!isCollapsed}
+                >
+                    {isCollapsed ? (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                            <line x1="9" y1="3" x2="9" y2="21" />
+                            <path d="m13 9 3 3-3 3" />
+                        </svg>
+                    ) : (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                            <line x1="9" y1="3" x2="9" y2="21" />
+                            <path d="m15 9-3 3 3 3" />
+                        </svg>
+                    )}
+                </button>
+            </div>
             <ul className={styles.navList}>
                 {items.map(item => {
                     const isActive = prop.selected === item.location;
@@ -70,6 +122,7 @@ export function Menu(prop: MenuProp) {
                             key={item.location}
                             className={`${styles.navItem} ${isActive ? styles.active : ''}`}
                             onClick={() => prop.onClickMenu(item)}
+                            title={isCollapsed ? item.description : undefined}
                         >
                             <span className={styles.iconWrapper}>
                                 {item.icon ?? getMenuIcon(item.location)}

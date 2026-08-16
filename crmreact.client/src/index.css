@@ -1,7 +1,7 @@
 :root {
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* HSL Modern Design System */
+  /* HSL Modern Design System - Light Theme */
   --bg-app: hsl(215, 28%, 97%);
   --bg-surface: hsl(0, 0%, 100%);
   --bg-surface-subtle: hsl(215, 25%, 95%);
@@ -56,6 +56,51 @@
   --transition-normal: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme="dark"] {
+  /* HSL Modern Design System - Dark Theme */
+  --bg-app: hsl(222, 47%, 9%);
+  --bg-surface: hsl(222, 47%, 13%);
+  --bg-surface-subtle: hsl(222, 44%, 17%);
+  --bg-surface-hover: hsl(222, 42%, 21%);
+
+  --border-subtle: hsl(217, 33%, 20%);
+  --border-default: hsl(217, 33%, 28%);
+  --border-focus: hsl(243, 85%, 68%);
+
+  --text-primary: hsl(210, 40%, 98%);
+  --text-secondary: hsl(215, 20%, 75%);
+  --text-muted: hsl(215, 16%, 55%);
+
+  /* Primary Accent: Vibrant Indigo */
+  --primary: hsl(243, 85%, 66%);
+  --primary-hover: hsl(243, 85%, 72%);
+  --primary-active: hsl(243, 85%, 60%);
+  --primary-subtle: hsla(243, 85%, 66%, 0.15);
+  --primary-subtle-border: hsla(243, 85%, 66%, 0.3);
+  --primary-foreground: #ffffff;
+
+  /* Semantic Colors */
+  --success: hsl(158, 64%, 48%);
+  --success-subtle: hsla(158, 64%, 48%, 0.15);
+  --success-text: hsl(158, 75%, 65%);
+
+  --danger: hsl(350, 75%, 60%);
+  --danger-hover: hsl(350, 75%, 66%);
+  --danger-subtle: hsla(350, 75%, 60%, 0.15);
+  --danger-text: hsl(350, 85%, 75%);
+
+  --warning: hsl(38, 92%, 55%);
+  --warning-subtle: hsla(38, 92%, 55%, 0.15);
+  --warning-text: hsl(38, 95%, 70%);
+
+  /* Shadows tuned for Dark Theme */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 20px -4px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -71,6 +116,7 @@ html, body {
   background-color: var(--bg-app);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 #root {

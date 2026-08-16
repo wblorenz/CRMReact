@@ -43,6 +43,30 @@ function App() {
         }
     };
 
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('crm_theme');
+            if (saved === 'dark' || saved === 'light') return saved;
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+        }
+        return 'light';
+    });
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        try {
+            localStorage.setItem('crm_theme', theme);
+        } catch {
+            // ignore localStorage quota errors
+        }
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    };
+
     const [authStatus, setAuthStatus] = useState<LoginModel>({
         isAuthenticated: false,
         user: "",
@@ -116,6 +140,32 @@ function App() {
                                         <div className="user-avatar">{getInitials(authStatus.user)}</div>
                                         <span className="user-name">{authStatus.user}</span>
                                     </div>
+                                    <button
+                                        type="button"
+                                        className="crm-theme-toggle-btn"
+                                        onClick={toggleTheme}
+                                        title={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+                                        aria-label={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+                                    >
+                                        {theme === 'dark' ? (
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="12" r="5"></circle>
+                                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                            </svg>
+                                        ) : (
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 0 0 0 21 12.79z"></path>
+                                            </svg>
+                                        )}
+                                        <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                                    </button>
                                     <button className="crm-logout-btn" onClick={handleLogoff} title="Sign Out">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>

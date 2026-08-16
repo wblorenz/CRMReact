@@ -93,6 +93,44 @@
     color: var(--text-primary);
 }
 
+.crm-theme-toggle-btn {
+    background-color: var(--bg-surface-subtle);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    font-size: 0.825rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.crm-theme-toggle-btn:hover {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+    box-shadow: var(--shadow-xs);
+    transform: none;
+}
+
+.crm-theme-toggle-btn:active {
+    background-color: var(--bg-surface-subtle);
+    transform: none;
+}
+
+.crm-theme-toggle-btn svg {
+    color: var(--primary);
+    transition: transform 0.25s ease;
+}
+
+.crm-theme-toggle-btn:hover svg {
+    transform: rotate(15deg);
+}
+
 .crm-logout-btn {
     background-color: transparent;
     color: var(--text-secondary);
@@ -102,6 +140,7 @@
     box-shadow: none;
     font-size: 0.825rem;
     font-weight: 500;
+    transition: var(--transition-fast);
 }
 
 .crm-logout-btn:hover {
@@ -123,6 +162,7 @@
 
 .crm-content-card {
     flex: 1;
+    min-width: 0;
     background-color: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -131,6 +171,7 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
+    transition: var(--transition-normal);
 }
 
 /* Common Page Headers & Toolbars */

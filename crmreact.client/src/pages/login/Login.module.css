@@ -4,9 +4,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 50% 20%, hsl(215, 30%, 94%) 0%, var(--bg-app) 100%);
+    background: radial-gradient(circle at 50% 20%, var(--bg-surface-subtle) 0%, var(--bg-app) 100%);
     padding: 1.5rem;
     box-sizing: border-box;
+    transition: background 0.25s ease;
 }
 
 .card {
