@@ -181,7 +181,7 @@ export function TicketEdit(props: TicketEditProps) {
                         Back to Tickets
                     </button>
                 </div>
-                <div className="error-message">Ticket #{id} could not be found.</div>
+                <div className="error-message">Ticket could not be found.</div>
             </div>
         );
     }
@@ -206,7 +206,7 @@ export function TicketEdit(props: TicketEditProps) {
                     <div>
                         <h3 style={{ margin: 0 }}>{isNew ? 'Create New Ticket' : 'Edit Ticket'}</h3>
                         <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {isNew ? 'Record a support ticket or issue for a client.' : `Managing ticket #${ticket?.id}`}
+                            {isNew ? 'Record a support ticket or issue for a client.' : (ticket?.title || title || 'Managing ticket details')}
                         </p>
                     </div>
                 </div>

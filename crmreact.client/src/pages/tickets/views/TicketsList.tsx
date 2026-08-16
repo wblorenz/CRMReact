@@ -111,7 +111,6 @@ export function TicketsList(props: TicketsListProps) {
                     <table className="table" aria-labelledby="tableLabel">
                         <thead>
                             <tr>
-                                <th style={{ width: '80px' }}>ID</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Contact</th>
@@ -129,7 +128,6 @@ export function TicketsList(props: TicketsListProps) {
                                     }}
                                     className="recordList"
                                 >
-                                    <td><span className="record-badge">#{ticket.id}</span></td>
                                     <td style={{ fontWeight: 600 }}>{ticket.title}</td>
                                     <td style={{ color: 'var(--text-secondary)', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                         {ticket.description || '—'}

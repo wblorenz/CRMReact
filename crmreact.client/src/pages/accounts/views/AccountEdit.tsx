@@ -134,7 +134,7 @@ export function AccountEdit(props: AccountEditProps) {
                         Back to Accounts
                     </button>
                 </div>
-                <div className="error-message">Account #{id} could not be found.</div>
+                <div className="error-message">Account could not be found.</div>
             </div>
         );
     }
@@ -159,7 +159,7 @@ export function AccountEdit(props: AccountEditProps) {
                     <div>
                         <h3 style={{ margin: 0 }}>{isNew ? 'Create New Account' : 'Edit Account'}</h3>
                         <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {isNew ? 'Fill in the information below to add a new account.' : `Managing details for account #${account?.id}`}
+                            {isNew ? 'Fill in the information below to add a new account.' : (account?.name || name || 'Managing account details')}
                         </p>
                     </div>
                 </div>

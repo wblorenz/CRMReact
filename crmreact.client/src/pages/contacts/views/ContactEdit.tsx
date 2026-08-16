@@ -164,7 +164,7 @@ export function ContactEdit(props: ContactEditProps) {
                         Back to Contacts
                     </button>
                 </div>
-                <div className="error-message">Contact #{id} could not be found.</div>
+                <div className="error-message">Contact could not be found.</div>
             </div>
         );
     }
@@ -189,7 +189,7 @@ export function ContactEdit(props: ContactEditProps) {
                     <div>
                         <h3 style={{ margin: 0 }}>{isNew ? 'Create New Contact' : 'Edit Contact'}</h3>
                         <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {isNew ? 'Add a new person to your network and CRM.' : `Editing contact details for #${contact?.id}`}
+                            {isNew ? 'Add a new person to your network and CRM.' : (contact?.name || name || 'Managing contact details')}
                         </p>
                     </div>
                 </div>

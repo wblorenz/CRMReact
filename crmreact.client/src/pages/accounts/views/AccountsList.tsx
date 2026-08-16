@@ -122,7 +122,6 @@ export function AccountsList(props: AccountListProps) {
                         <table className="table" aria-labelledby="tableLabel">
                             <thead>
                                 <tr>
-                                    <th style={{ width: '90px' }}>ID</th>
                                     <th>Account Name</th>
                                     {props.showEditing && <th style={{ width: '100px', textAlign: 'right' }}>Actions</th>}
                                 </tr>
@@ -141,9 +140,6 @@ export function AccountsList(props: AccountListProps) {
                                         }}
                                         className="recordList"
                                     >
-                                        <td>
-                                            <span className="record-badge">#{account.id}</span>
-                                        </td>
                                         <td style={{ fontWeight: 600 }}>{account.name}</td>
                                         {props.showEditing && (
                                             <td style={{ textAlign: 'right' }}>

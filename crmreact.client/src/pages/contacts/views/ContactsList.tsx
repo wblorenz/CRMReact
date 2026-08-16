@@ -107,7 +107,6 @@ export function ContactsList(props: ContactListProps) {
                     <table className="table" aria-labelledby="tableLabel">
                         <thead>
                             <tr>
-                                <th style={{ width: '80px' }}>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Telephone</th>
@@ -129,7 +128,6 @@ export function ContactsList(props: ContactListProps) {
                                     }}
                                     className="recordList"
                                 >
-                                    <td><span className="record-badge">#{contact.id}</span></td>
                                     <td style={{ fontWeight: 600 }}>{contact.name}</td>
                                     <td>
                                         {contact.email ? (
