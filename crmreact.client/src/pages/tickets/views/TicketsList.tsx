@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Ticket } from '../models/Ticket.tsx';
 import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage';
-import { TicketEdit } from './TicketEdit.tsx';
 import { SearchInput } from '../../../components/molecules/SearchInput.tsx';
 
 export interface TicketsListProps {
@@ -9,9 +9,9 @@ export interface TicketsListProps {
 }
 
 export function TicketsList(props: TicketsListProps) {
+    const navigate = useNavigate();
     const [tickets, setTickets] = useState<Ticket[]>();
     const [filter, setFilter] = useState<string>('');
-    const [ticketEditing, setTicketEditing] = useState<Ticket>();
     const message = GetQuickMessageContext();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export function TicketsList(props: TicketsListProps) {
 
     async function populateTickets(fil?: string) {
         try {
-            const response = await fetch(fil ? 'api/Ticket?filter=' + encodeURIComponent(fil) : 'api/Ticket');
+            const response = await fetch(fil ? '/api/Ticket?filter=' + encodeURIComponent(fil) : '/api/Ticket');
             if (response.ok) {
                 const data2 = await response.json();
                 const data = data2.entities || [];
@@ -36,7 +36,7 @@ export function TicketsList(props: TicketsListProps) {
 
     function removeTicket(tick: Ticket) {
         if (confirm("Are you sure you want to delete the ticket: " + tick.title + "?")) {
-            fetch('api/Ticket/' + tick.id, {
+            fetch('/api/Ticket/' + tick.id, {
                 method: 'delete',
                 headers: {
                     'Accept': 'application/json',
@@ -47,7 +47,9 @@ export function TicketsList(props: TicketsListProps) {
                 .then((res) => {
                     if (res.ok) {
                         populateTickets(filter);
-                        message('Ticket Deleted!');
+                        if (message) {
+                            message('Ticket Deleted!');
+                        }
                     } else {
                         res.json().then((json) => {
                             const { detail, instance } = json;
@@ -65,33 +67,6 @@ export function TicketsList(props: TicketsListProps) {
         populateTickets(filter);
     };
 
-    if (ticketEditing) {
-        return (
-            <div>
-                <div className="view-header">
-                    <button
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => setTicketEditing(undefined)}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                        Back to Tickets
-                    </button>
-                </div>
-                <TicketEdit
-                    ticket={ticketEditing}
-                    afterUpdate={() => {
-                        populateTickets(filter);
-                        setTicketEditing(undefined);
-                    }}
-                />
-            </div>
-        );
-    }
-
     return (
         <div>
             <div className="view-header">
@@ -101,7 +76,7 @@ export function TicketsList(props: TicketsListProps) {
                 {props.showEditing && (
                     <button
                         type="button"
-                        onClick={() => setTicketEditing(new Ticket('', ''))}
+                        onClick={() => navigate('/tickets/new')}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -149,7 +124,7 @@ export function TicketsList(props: TicketsListProps) {
                                     key={ticket.id}
                                     onClick={() => {
                                         if (props.showEditing) {
-                                            setTicketEditing(ticket);
+                                            navigate(`/tickets/${ticket.id}`);
                                         }
                                     }}
                                     className="recordList"

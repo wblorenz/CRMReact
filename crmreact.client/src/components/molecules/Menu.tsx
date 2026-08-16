@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.css';
 
 export class MenuItem {
     description!: string;
     location!: string;
-    view!: JSX.Element;
+    path?: string;
+    view?: JSX.Element;
     icon?: React.ReactNode;
 }
 
 export interface MenuProp {
-    items: MenuItem[];
+    items?: MenuItem[];
     selected?: string;
-    onClickMenu: (selected: MenuItem) => void;
+    onClickMenu?: (selected: MenuItem) => void;
     isCollapsed?: boolean;
     onToggleCollapse?: (collapsed: boolean) => void;
 }
 
+const defaultMenuItems: MenuItem[] = [
+    { description: 'Dashboard', location: 'dashboard', path: '/dashboard' },
+    { description: 'Accounts', location: 'accounts', path: '/accounts' },
+    { description: 'Contacts', location: 'contacts', path: '/contacts' },
+    { description: 'Tickets', location: 'tickets', path: '/tickets' },
+];
+
 const getMenuIcon = (location: string) => {
-    switch (location) {
+    switch (location.toLowerCase()) {
         case 'dashboard':
             return (
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +36,7 @@ const getMenuIcon = (location: string) => {
                     <rect x="3" y="14" width="7" height="7" rx="1"></rect>
                 </svg>
             );
-        case 'account':
+        case 'accounts':
             return (
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
@@ -60,6 +69,10 @@ const getMenuIcon = (location: string) => {
 };
 
 export function Menu(prop: MenuProp) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const currentPath = location.pathname.toLowerCase();
+
     const [collapsedInternal, setCollapsedInternal] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('crm_menu_collapsed');
@@ -83,7 +96,32 @@ export function Menu(prop: MenuProp) {
         }
     };
 
-    const items = prop.items;
+    const items = prop.items ?? defaultMenuItems;
+
+    const isItemActive = (item: MenuItem) => {
+        if (prop.selected) {
+            return prop.selected.toLowerCase() === item.location.toLowerCase();
+        }
+        const itemPath = (item.path ?? `/${item.location}`).toLowerCase();
+
+        if (itemPath === '/dashboard') {
+            return currentPath === '/' || currentPath === '/dashboard';
+        }
+
+        return (
+            currentPath === itemPath ||
+            currentPath.startsWith(itemPath + '/')
+        );
+    };
+
+    const handleItemClick = (item: MenuItem) => {
+        const targetPath = item.path ?? `/${item.location}`;
+        navigate(targetPath);
+        if (prop.onClickMenu) {
+            prop.onClickMenu(item);
+        }
+    };
+
     return (
         <aside
             className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}
@@ -116,12 +154,12 @@ export function Menu(prop: MenuProp) {
             </div>
             <ul className={styles.navList}>
                 {items.map(item => {
-                    const isActive = prop.selected === item.location;
+                    const isActive = isItemActive(item);
                     return (
                         <li
                             key={item.location}
                             className={`${styles.navItem} ${isActive ? styles.active : ''}`}
-                            onClick={() => prop.onClickMenu(item)}
+                            onClick={() => handleItemClick(item)}
                             title={isCollapsed ? item.description : undefined}
                         >
                             <span className={styles.iconWrapper}>

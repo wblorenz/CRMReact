@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Contact } from '../models/Contact.tsx';
 import { AccountsList } from '../../accounts/views/AccountsList.tsx';
 import { GetPopupContext } from '../../../components/molecules/Popup.tsx';
@@ -6,11 +7,14 @@ import { Lookup } from '../../../components/molecules/Lookup.tsx';
 import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 
 export interface ContactEditProps {
-    contact: Contact | undefined;
-    afterUpdate: () => void;
+    contact?: Contact | undefined;
+    afterUpdate?: () => void;
+    onBack?: () => void;
 }
 
 export function ContactEdit(props: ContactEditProps) {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const dispatch = GetPopupContext();
     const guid = crypto.randomUUID();
     const [contact, setContact] = useState<Contact | undefined>(props.contact);
@@ -19,18 +23,61 @@ export function ContactEdit(props: ContactEditProps) {
     const [telephone, setTelephone] = useState<string>("");
     const [account, setAccount] = useState<string>("");
     const [accountId, setAccountId] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [notFound, setNotFound] = useState<boolean>(false);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const message = GetQuickMessageContext();
 
     useEffect(() => {
-        if (props.contact?.name !== undefined) {
+        if (props.contact) {
             setContact(props.contact);
-            setName(props.contact?.name);
-            setEmail(props.contact?.email);
-            setTelephone(props.contact?.telephone);
-            setAccount(props.contact?.account);
-            setAccountId(props.contact?.accountId ?? "");
+            setName(props.contact.name || "");
+            setEmail(props.contact.email || "");
+            setTelephone(props.contact.telephone || "");
+            setAccount(props.contact.account || "");
+            setAccountId(props.contact.accountId ?? "");
+            setIsLoading(false);
+            setNotFound(false);
+            return;
+        }
+
+        if (id) {
+            if (id.toLowerCase() === 'new') {
+                setContact(new Contact());
+                setName("");
+                setEmail("");
+                setTelephone("");
+                setAccount("");
+                setAccountId("");
+                setIsLoading(false);
+                setNotFound(false);
+            } else {
+                setIsLoading(true);
+                setNotFound(false);
+                setError("");
+                fetch(`/api/Contact/${id}`)
+                    .then(async (res) => {
+                        if (res.ok) {
+                            const data: Contact = await res.json();
+                            setContact(data);
+                            setName(data.name || "");
+                            setEmail(data.email || "");
+                            setTelephone(data.telephone || "");
+                            setAccount(data.account || "");
+                            setAccountId(data.accountId ?? "");
+                        } else {
+                            setNotFound(true);
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("Failed to fetch contact", err);
+                        setError("Failed to load contact details.");
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
+            }
         } else {
             setName("");
             setEmail("");
@@ -39,14 +86,22 @@ export function ContactEdit(props: ContactEditProps) {
             setAccountId("");
             setContact(undefined);
         }
-    }, [props.contact]);
+    }, [props.contact, id]);
+
+    const handleBack = () => {
+        if (props.onBack) {
+            props.onBack();
+        } else {
+            navigate('/contacts');
+        }
+    };
 
     const handleSubmit = () => {
         setError('');
         setIsSaving(true);
-        const method = contact?.id !== undefined ? 'put' : 'post';
+        const method = contact?.id ? 'put' : 'post';
 
-        fetch('api/Contact', {
+        fetch('/api/Contact', {
             method: method,
             headers: {
                 'Accept': 'application/json',
@@ -60,18 +115,21 @@ export function ContactEdit(props: ContactEditProps) {
                 AccountId: accountId
             })
         })
-            .then((e) => {
-                if (e.ok) {
-                    e.json().then((res) => {
-                        setContact(res);
-                        props.afterUpdate();
+            .then(async (res) => {
+                if (res.ok) {
+                    const saved = await res.json();
+                    setContact(saved);
+                    if (message) {
                         message('Contact Saved successfully!');
-                    });
+                    }
+                    if (props.afterUpdate) {
+                        props.afterUpdate();
+                    } else {
+                        navigate('/contacts');
+                    }
                 } else {
-                    message('Error saving contact');
-                    e.json().then((err) => {
-                        setError(typeof err === 'string' ? err : 'Failed to save contact');
-                    });
+                    const err = await res.json().catch(() => null);
+                    setError(typeof err === 'string' ? err : err?.detail || 'Failed to save contact');
                 }
             })
             .catch((err) => {
@@ -83,79 +141,122 @@ export function ContactEdit(props: ContactEditProps) {
             });
     };
 
-    const isNew = contact?.id === undefined;
+    const isNew = !contact?.id;
 
-    return (
-        <div className="form-card">
-            <div className="form-card-header">
-                <div>
-                    <h3 style={{ margin: 0 }}>{isNew ? 'Create New Contact' : 'Edit Contact'}</h3>
-                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                        {isNew ? 'Add a new person to your network and CRM.' : `Editing contact details for #${contact?.id}`}
-                    </p>
-                </div>
+    if (isLoading) {
+        return (
+            <div className="empty-state">
+                <div className="crm-spinner" style={{ margin: '0 auto 1rem auto' }} />
+                <span>Loading contact details...</span>
             </div>
-            <form className="form-container" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
-                <div className="form-field">
-                    <label htmlFor="contact-name">Full Name</label>
-                    <input
-                        id="contact-name"
-                        name="name"
-                        placeholder="e.g. John Doe"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        disabled={isSaving}
-                    />
-                </div>
+        );
+    }
 
-                <div className="form-field">
-                    <label htmlFor="contact-email">Email Address</label>
-                    <input
-                        id="contact-email"
-                        type="email"
-                        name="email"
-                        placeholder="e.g. john@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={isSaving}
-                    />
-                </div>
-
-                <div className="form-field">
-                    <label htmlFor="contact-phone">Telephone</label>
-                    <input
-                        id="contact-phone"
-                        name="telephone"
-                        placeholder="e.g. +1 (555) 000-0000"
-                        value={telephone}
-                        onChange={(e) => setTelephone(e.target.value)}
-                        disabled={isSaving}
-                    />
-                </div>
-
-                <Lookup title='Select Associated Account' id={guid} value={account} label="Associated Account">
-                    <AccountsList
-                        showEditing={false}
-                        accountSelected={(acc) => {
-                            setAccountId(acc.id);
-                            setAccount(acc.name);
-                            dispatch({ id: guid, type: 'remove' });
-                        }}
-                    />
-                </Lookup>
-
-                {error && <div className="error-message">{error}</div>}
-
-                <div className="form-actions">
-                    <button type="submit" disabled={isSaving}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+    if (notFound) {
+        return (
+            <div>
+                <div className="view-header">
+                    <button type="button" className="btn-secondary" onClick={handleBack}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
-                        {isSaving ? 'Saving...' : isNew ? 'Create Contact' : 'Update Contact'}
+                        Back to Contacts
                     </button>
                 </div>
-            </form>
+                <div className="error-message">Contact #{id} could not be found.</div>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <div className="view-header">
+                <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={handleBack}
+                >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Contacts
+                </button>
+            </div>
+            <div className="form-card">
+                <div className="form-card-header">
+                    <div>
+                        <h3 style={{ margin: 0 }}>{isNew ? 'Create New Contact' : 'Edit Contact'}</h3>
+                        <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                            {isNew ? 'Add a new person to your network and CRM.' : `Editing contact details for #${contact?.id}`}
+                        </p>
+                    </div>
+                </div>
+                <form className="form-container" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
+                    <div className="form-field">
+                        <label htmlFor="contact-name">Full Name</label>
+                        <input
+                            id="contact-name"
+                            name="name"
+                            placeholder="e.g. John Doe"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            disabled={isSaving}
+                        />
+                    </div>
+
+                    <div className="form-field">
+                        <label htmlFor="contact-email">Email Address</label>
+                        <input
+                            id="contact-email"
+                            type="email"
+                            name="email"
+                            placeholder="e.g. john@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={isSaving}
+                        />
+                    </div>
+
+                    <div className="form-field">
+                        <label htmlFor="contact-phone">Telephone</label>
+                        <input
+                            id="contact-phone"
+                            name="telephone"
+                            placeholder="e.g. +1 (555) 000-0000"
+                            value={telephone}
+                            onChange={(e) => setTelephone(e.target.value)}
+                            disabled={isSaving}
+                        />
+                    </div>
+
+                    <Lookup title='Select Associated Account' id={guid} value={account} label="Associated Account">
+                        <AccountsList
+                            showEditing={false}
+                            accountSelected={(acc) => {
+                                setAccountId(acc.id);
+                                setAccount(acc.name);
+                                dispatch({ id: guid, type: 'remove' });
+                            }}
+                        />
+                    </Lookup>
+
+                    {error && <div className="error-message">{error}</div>}
+
+                    <div className="form-actions">
+                        <button type="submit" disabled={isSaving}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            {isSaving ? 'Saving...' : isNew ? 'Create Contact' : 'Update Contact'}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
+
+export default ContactEdit;

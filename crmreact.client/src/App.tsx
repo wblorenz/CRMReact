@@ -1,14 +1,18 @@
-import { useState, useMemo, useReducer, useEffect } from 'react';
+import { useState, useReducer, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import { Menu, MenuItem } from './components/molecules/Menu.tsx';
+import { Menu } from './components/molecules/Menu.tsx';
 import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
+import { AccountEdit } from './pages/accounts/views/AccountEdit.tsx';
 import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
-import { Login, LoginModel } from './pages/login/Login.tsx';
+import { ContactEdit } from './pages/contacts/views/ContactEdit.tsx';
+import { TicketsList } from './pages/tickets/views/TicketsList.tsx';
+import { TicketEdit } from './pages/tickets/views/TicketEdit.tsx';
 import { DashboardView } from './pages/dashboard/views/DashboardView.tsx';
+import { Login, LoginModel } from './pages/login/Login.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
 import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
 import { PopupContext, PopupContextMethodParams } from './components/molecules/Popup.tsx';
-import TicketsList from './pages/tickets/views/TicketsList.tsx';
 
 const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): PopupModel[] => {
     switch (action.type) {
@@ -23,25 +27,7 @@ const addPopup = (popups: PopupModel[], action: PopupContextMethodParams): Popup
 
 function App() {
     const [popups, dispatch] = useReducer(addPopup, []);
-    const menuItems = useMemo(() => {
-        return [
-            { description: 'Dashboard', location: "dashboard", view: (<DashboardView />) },
-            { description: 'Accounts', location: "account", view: (<AccountsList showEditing={true} />) },
-            { description: 'Contacts', location: "contacts", view: (<ContactsList showEditing={true} />) },
-            { description: 'Tickets', location: "tickets", view: (<TicketsList showEditing={true} />) },
-        ];
-    }, []);
-
-    const [selected, setSelected] = useState<string>(menuItems[0].location);
-    const [view, setView] = useState<JSX.Element>(menuItems[0].view);
     const [quickMsg, setQuickMsg] = useState<string>('');
-
-    const onClickMenu = function (sel: MenuItem) {
-        if (sel.location !== selected) {
-            setSelected(sel.location);
-            setView(sel.view);
-        }
-    };
 
     const [theme, setTheme] = useState<'light' | 'dark'>(() => {
         if (typeof window !== 'undefined') {
@@ -178,9 +164,28 @@ function App() {
                             </header>
 
                             <main className="crm-main-layout">
-                                <Menu items={menuItems} selected={selected} onClickMenu={onClickMenu} />
+                                <Menu />
                                 <section className="crm-content-card">
-                                    {view}
+                                    <Routes>
+                                        {/* Dashboard */}
+                                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                                        <Route path="/dashboard" element={<DashboardView />} />
+
+                                        {/* Accounts */}
+                                        <Route path="/accounts" element={<AccountsList showEditing={true} />} />
+                                        <Route path="/accounts/:id" element={<AccountEdit />} />
+
+                                        {/* Contacts */}
+                                        <Route path="/contacts" element={<ContactsList showEditing={true} />} />
+                                        <Route path="/contacts/:id" element={<ContactEdit />} />
+
+                                        {/* Tickets */}
+                                        <Route path="/tickets" element={<TicketsList showEditing={true} />} />
+                                        <Route path="/tickets/:id" element={<TicketEdit />} />
+
+                                        {/* Fallback */}
+                                        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                                    </Routes>
                                 </section>
                             </main>
 

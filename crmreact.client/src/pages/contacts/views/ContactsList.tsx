@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Contact } from '../models/Contact.tsx';
-import { ContactEdit } from './ContactEdit.tsx';
 import { QuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 import { SearchInput } from '../../../components/molecules/SearchInput.tsx';
 
@@ -10,9 +10,9 @@ export interface ContactListProps {
 }
 
 export function ContactsList(props: ContactListProps) {
+    const navigate = useNavigate();
     const [contacts, setContacts] = useState<Contact[]>();
     const [filter, setFilter] = useState<string>('');
-    const [contactEditing, setContactEditing] = useState<Contact>();
     const message = useContext(QuickMessageContext);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export function ContactsList(props: ContactListProps) {
 
     async function populateContacts(fil: string) {
         try {
-            const response = await fetch(fil ? 'api/Contact?filter=' + encodeURIComponent(fil) : 'api/Contact');
+            const response = await fetch(fil ? '/api/Contact?filter=' + encodeURIComponent(fil) : '/api/Contact');
             if (response.ok) {
                 const data = await response.json();
                 setContacts(data.entities || []);
@@ -33,7 +33,7 @@ export function ContactsList(props: ContactListProps) {
 
     function removeContact(acc: Contact) {
         if (confirm("Are you sure you want to delete the contact: " + acc.name + "?")) {
-            fetch('api/Contact/' + acc.id, {
+            fetch('/api/Contact/' + acc.id, {
                 method: 'delete',
                 headers: {
                     'Accept': 'application/json',
@@ -63,33 +63,6 @@ export function ContactsList(props: ContactListProps) {
         populateContacts(filter);
     };
 
-    if (contactEditing) {
-        return (
-            <div>
-                <div className="view-header">
-                    <button
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => setContactEditing(undefined)}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                        Back to Contacts
-                    </button>
-                </div>
-                <ContactEdit
-                    contact={contactEditing}
-                    afterUpdate={() => {
-                        populateContacts(filter);
-                        setContactEditing(undefined);
-                    }}
-                />
-            </div>
-        );
-    }
-
     return (
         <div>
             <div className="view-header">
@@ -99,7 +72,7 @@ export function ContactsList(props: ContactListProps) {
                 {props.showEditing && (
                     <button
                         type="button"
-                        onClick={() => setContactEditing(new Contact())}
+                        onClick={() => navigate('/contacts/new')}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -148,7 +121,7 @@ export function ContactsList(props: ContactListProps) {
                                     key={contact.id}
                                     onClick={() => {
                                         if (props.showEditing) {
-                                            setContactEditing(contact);
+                                            navigate(`/contacts/${contact.id}`);
                                         }
                                         if (props.contactSelected) {
                                             props.contactSelected(contact);
@@ -204,3 +177,5 @@ export function ContactsList(props: ContactListProps) {
         </div>
     );
 }
+
+export default ContactsList;

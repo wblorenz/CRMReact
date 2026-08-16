@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Account } from '../models/Account.tsx';
-import { AccountEdit } from './AccountEdit.tsx';
 import { GetQuickMessageContext } from '../../../components/molecules/QuickMessage.tsx';
 import { Pagination } from '../../../components/molecules/Pagination.tsx';
 import { SearchInput } from '../../../components/molecules/SearchInput.tsx';
@@ -11,21 +11,22 @@ export interface AccountListProps {
 }
 
 export function AccountsList(props: AccountListProps) {
+    const navigate = useNavigate();
     const [accounts, setAccounts] = useState<Account[]>();
     const [filter, setFilter] = useState<string>('');
-    const [accountEditing, setAccountEditing] = useState<Account>();
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
     const message = GetQuickMessageContext();
 
     useEffect(() => {
         populateAccounts(filter, currentPage);
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
     async function populateAccounts(fil: string, page: number) {
         const from = page * 10;
         const to = from + 10;
-        let addr = 'api/Account?from=' + from + '&to=' + to;
+        let addr = '/api/Account?from=' + from + '&to=' + to;
         if (fil !== "") {
             addr += '&filter=' + encodeURIComponent(fil);
         }
@@ -43,7 +44,7 @@ export function AccountsList(props: AccountListProps) {
 
     function removeAccount(acc: Account) {
         if (confirm("Are you sure you want to delete the account: " + acc.name + "?")) {
-            fetch('api/Account/' + acc.id, {
+            fetch('/api/Account/' + acc.id, {
                 method: 'delete',
                 headers: {
                     'Accept': 'application/json',
@@ -54,7 +55,9 @@ export function AccountsList(props: AccountListProps) {
                 .then((res) => {
                     if (res.ok) {
                         populateAccounts(filter, currentPage);
-                        message('Account Deleted!');
+                        if (message) {
+                            message('Account Deleted!');
+                        }
                     } else {
                         res.json().then((json) => {
                             const { detail, instance } = json;
@@ -74,33 +77,6 @@ export function AccountsList(props: AccountListProps) {
         populateAccounts(filter, 0);
     };
 
-    if (accountEditing) {
-        return (
-            <div>
-                <div className="view-header">
-                    <button
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => setAccountEditing(undefined)}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                        Back to Accounts
-                    </button>
-                </div>
-                <AccountEdit
-                    account={accountEditing}
-                    afterUpdate={() => {
-                        populateAccounts(filter, currentPage);
-                        setAccountEditing(undefined);
-                    }}
-                />
-            </div>
-        );
-    }
-
     return (
         <div>
             <div className="view-header">
@@ -110,7 +86,7 @@ export function AccountsList(props: AccountListProps) {
                 {props.showEditing && (
                     <button
                         type="button"
-                        onClick={() => setAccountEditing(new Account())}
+                        onClick={() => navigate('/accounts/new')}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -157,7 +133,7 @@ export function AccountsList(props: AccountListProps) {
                                         key={account.id}
                                         onClick={() => {
                                             if (props.showEditing) {
-                                                setAccountEditing(account);
+                                                navigate(`/accounts/${account.id}`);
                                             }
                                             if (props.accountSelected) {
                                                 props.accountSelected(account);
@@ -197,7 +173,6 @@ export function AccountsList(props: AccountListProps) {
                         currentPage={currentPage}
                         onPageChange={(e) => {
                             setCurrentPage(e);
-                            populateAccounts(filter, e);
                         }}
                     />
                 </>
@@ -205,3 +180,5 @@ export function AccountsList(props: AccountListProps) {
         </div>
     );
 }
+
+export default AccountsList;
