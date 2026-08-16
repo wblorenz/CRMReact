@@ -24,7 +24,7 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
 
         setIsSubmitting(true);
         try {
-            const response = await fetch('api/User/Login', {
+            const response = await fetch('/api/User/Login', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
