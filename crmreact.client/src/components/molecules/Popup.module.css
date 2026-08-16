@@ -1,4 +1,5 @@
-.popup-overlay-container {
+/* Popup Component CSS Module */
+.overlayContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +13,7 @@
     box-sizing: border-box;
 }
 
-.popup-backdrop {
+.backdrop {
     position: absolute;
     top: 0;
     left: 0;
@@ -23,7 +24,7 @@
     animation: popupFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.popup-dialog {
+.dialog {
     position: relative;
     z-index: 1001;
     background-color: var(--bg-surface);
@@ -39,7 +40,7 @@
     animation: popupSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.popup-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,14 +49,14 @@
     background-color: var(--bg-surface-subtle);
 }
 
-.popup-title {
+.title {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
 }
 
-.popup-close-btn {
+.closeBtn {
     width: 32px;
     height: 32px;
     border-radius: var(--radius-full);
@@ -71,14 +72,14 @@
     transition: var(--transition-fast);
 }
 
-.popup-close-btn:hover {
+.closeBtn:hover {
     background-color: var(--bg-surface-hover);
     color: var(--text-primary);
     border-color: var(--border-subtle);
     transform: none;
 }
 
-.popup-body {
+.body {
     padding: 1.5rem;
     overflow-y: auto;
     max-height: calc(85vh - 70px);

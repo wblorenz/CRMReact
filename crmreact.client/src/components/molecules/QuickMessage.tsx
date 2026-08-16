@@ -1,5 +1,5 @@
-import { createContext, useRef, useEffect, useContext } from 'react';
-import './QuickMessage.css';
+import { createContext, useState, useEffect, useContext } from 'react';
+import styles from './QuickMessage.module.css';
 
 export interface QuickMessageProps {
     message: string;
@@ -10,19 +10,15 @@ export const QuickMessageContext = createContext<((str: string) => void) | undef
 
 export function QuickMessage(props: QuickMessageProps) {
     const { removeMessage } = props;
-    const divRef = useRef<HTMLDivElement>(null);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         const timer1 = setTimeout(() => {
-            if (divRef.current) {
-                divRef.current.classList.add("quick-message-visible");
-            }
+            setVisible(true);
         }, 50);
 
         const timer2 = setTimeout(() => {
-            if (divRef.current) {
-                divRef.current.classList.remove("quick-message-visible");
-            }
+            setVisible(false);
         }, 2600);
 
         const timer3 = setTimeout(() => {
@@ -37,13 +33,13 @@ export function QuickMessage(props: QuickMessageProps) {
     }, [removeMessage]);
 
     return (
-        <div className="quick-message-toast" ref={divRef}>
-            <div className="quick-message-icon">
+        <div className={`${styles.toast} ${visible ? styles.visible : ''}`}>
+            <div className={styles.icon}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
-            <span className="quick-message-text">{props.message}</span>
+            <span className={styles.text}>{props.message}</span>
         </div>
     );
 }

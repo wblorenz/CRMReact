@@ -24,11 +24,11 @@ export function DashboardView() {
     }, []);
 
     return (
-        <div className={styles.dashboardWrapper}>
+        <div className={styles.wrapper}>
             <div className="view-header">
                 <div>
                     <h2 className="view-title">Dashboard Overview</h2>
-                    <p className={styles.dashboardSubtitle}>Real-time metrics and activity across your contacts, accounts, and tickets.</p>
+                    <p className={styles.subtitle}>Real-time metrics and activity across your contacts, accounts, and tickets.</p>
                 </div>
             </div>
 
@@ -97,3 +97,5 @@ export function DashboardView() {
         </div>
     );
 }
+
+export default DashboardView;

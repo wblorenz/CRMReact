@@ -1,10 +1,11 @@
-.dashboardWrapper {
+/* Dashboard View CSS Module */
+.wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.dashboardSubtitle {
+.subtitle {
     font-size: 0.875rem;
     color: var(--text-secondary);
     margin-top: 0.25rem;

@@ -1,0 +1,9 @@
+/* Lookup Component CSS Module */
+.lookupInput {
+    background-color: var(--bg-surface-subtle) !important;
+    cursor: pointer !important;
+}
+
+.lookupBtn {
+    flex-shrink: 0;
+}

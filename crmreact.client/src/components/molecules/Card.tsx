@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.css';
+import styles from './Card.module.css';
 
 export interface CardProps {
     title?: string;
@@ -10,18 +10,26 @@ export interface CardProps {
 }
 
 export function Card(props: CardProps) {
-    const variantClass = props.variant ? `card-variant-${props.variant}` : '';
+    const variantClass = props.variant === 'warning'
+        ? styles.variantWarning
+        : props.variant === 'success'
+        ? styles.variantSuccess
+        : props.variant === 'danger'
+        ? styles.variantDanger
+        : props.variant === 'primary'
+        ? styles.variantPrimary
+        : '';
 
     return (
-        <div className={`metric-card ${variantClass}`}>
-            <div className="metric-card-top">
-                {props.title && <span className="metric-card-title">{props.title}</span>}
-                {props.icon && <div className="metric-card-icon">{props.icon}</div>}
+        <div className={`${styles.card} ${variantClass}`.trim()}>
+            <div className={styles.cardTop}>
+                {props.title && <span className={styles.cardTitle}>{props.title}</span>}
+                {props.icon && <div className={styles.cardIcon}>{props.icon}</div>}
             </div>
-            <div className="metric-card-value">
+            <div className={styles.cardValue}>
                 {props.children}
             </div>
-            {props.subtitle && <div className="metric-card-subtitle">{props.subtitle}</div>}
+            {props.subtitle && <div className={styles.cardSubtitle}>{props.subtitle}</div>}
         </div>
     );
 }

@@ -1,4 +1,5 @@
-.metric-card {
+/* Card Component CSS Module */
+.card {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -14,19 +15,19 @@
     overflow: hidden;
 }
 
-.metric-card:hover {
+.card:hover {
     border-color: var(--border-default);
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
 
-.metric-card-top {
+.cardTop {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.metric-card-title {
+.cardTitle {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -34,7 +35,7 @@
     color: var(--text-muted);
 }
 
-.metric-card-icon {
+.cardIcon {
     width: 36px;
     height: 36px;
     border-radius: var(--radius-md);
@@ -46,7 +47,7 @@
     border: 1px solid var(--primary-subtle-border);
 }
 
-.metric-card-value {
+.cardValue {
     font-size: 2.25rem;
     font-weight: 800;
     color: var(--text-primary);
@@ -55,26 +56,32 @@
     margin-top: 0.25rem;
 }
 
-.metric-card-subtitle {
+.cardSubtitle {
     font-size: 0.8rem;
     color: var(--text-secondary);
 }
 
 /* Card Variants */
-.card-variant-warning .metric-card-icon {
+.variantWarning .cardIcon {
     background-color: var(--warning-subtle);
     color: var(--warning-text);
     border-color: hsla(38, 92%, 50%, 0.2);
 }
 
-.card-variant-success .metric-card-icon {
+.variantSuccess .cardIcon {
     background-color: var(--success-subtle);
     color: var(--success-text);
     border-color: hsla(158, 64%, 40%, 0.2);
 }
 
-.card-variant-danger .metric-card-icon {
+.variantDanger .cardIcon {
     background-color: var(--danger-subtle);
     color: var(--danger-text);
     border-color: hsla(350, 75%, 55%, 0.2);
+}
+
+.variantPrimary .cardIcon {
+    background-color: var(--primary-subtle);
+    color: var(--primary);
+    border-color: var(--primary-subtle-border);
 }

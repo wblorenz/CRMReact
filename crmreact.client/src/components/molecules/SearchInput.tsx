@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import './SearchInput.css';
+import styles from './SearchInput.module.css';
 
 export interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     wrapperClassName?: string;
@@ -23,8 +23,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
     const hasValue = value !== undefined && value !== null && value !== '';
 
     return (
-        <div className={`search-input-wrapper ${wrapperClassName}`.trim()} style={wrapperStyle}>
-            <span className="search-input-icon" aria-hidden="true">
+        <div className={`${styles.wrapper} ${wrapperClassName}`.trim()} style={wrapperStyle}>
+            <span className={styles.icon} aria-hidden="true">
                 {icon || (
                     <svg
                         width="16"
@@ -45,13 +45,13 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
                 ref={ref}
                 type={type}
                 value={value}
-                className={`search-input ${className}`.trim()}
+                className={`${styles.input} ${className}`.trim()}
                 {...restProps}
             />
             {showClear && hasValue && onClear && (
                 <button
                     type="button"
-                    className="search-input-clear-btn"
+                    className={styles.clearBtn}
                     onClick={onClear}
                     title="Clear search"
                     aria-label="Clear search"

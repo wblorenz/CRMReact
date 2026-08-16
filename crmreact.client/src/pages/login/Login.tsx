@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Login.css';
+import styles from './Login.module.css';
 
 export interface LoginModel {
     isAuthenticated: boolean;
@@ -57,10 +57,10 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
     };
 
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <div className="login-header">
-                    <div className="login-logo">
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <div className={styles.header}>
+                    <div className={styles.logo}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                             <circle cx="9" cy="7" r="4"></circle>
@@ -68,11 +68,11 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <h2 className="login-title">Personal CRM</h2>
-                    <p className="login-subtitle">Sign in to manage your relationships & tickets</p>
+                    <h2 className={styles.title}>Personal CRM</h2>
+                    <p className={styles.subtitle}>Sign in to manage your relationships & tickets</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="login-form">
+                <form onSubmit={handleSubmit} className={styles.form}>
                     <div className="form-field">
                         <label htmlFor="name">Username</label>
                         <input
@@ -103,7 +103,7 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
 
                     {error && <div className="error-message">{error}</div>}
 
-                    <button type="submit" className="login-btn-submit" disabled={isSubmitting}>
+                    <button type="submit" className={`btn-primary ${styles.btnSubmit}`} disabled={isSubmitting}>
                         {isSubmitting ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
@@ -111,3 +111,5 @@ export function Login(props: { setState: React.Dispatch<React.SetStateAction<Log
         </div>
     );
 }
+
+export default Login;

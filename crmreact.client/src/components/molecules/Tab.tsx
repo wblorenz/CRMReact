@@ -1,4 +1,4 @@
-import './Tab.css';
+import styles from './Tab.module.css';
 
 export class TabItem {
     description!: string;
@@ -15,13 +15,13 @@ export interface TabProp {
 export function Tab(prop: TabProp) {
     const items = prop.items;
     return (
-        <ul className='tab-bar'>
+        <ul className={styles.tabBar}>
             {items.map(item => (
-                <li key={item.location} className="tab-bar-item">
+                <li key={item.location} className={styles.tabItem}>
                     <span>{item.description}</span>
                     <button
                         type="button"
-                        className="tab-close-btn"
+                        className={styles.closeBtn}
                         onClick={(e) => {
                             e.stopPropagation();
                             prop.exclude(item);
@@ -34,3 +34,5 @@ export function Tab(prop: TabProp) {
         </ul>
     );
 }
+
+export default Tab;

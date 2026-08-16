@@ -1,5 +1,5 @@
 import React from 'react';
-import './Menu.css';
+import styles from './Menu.module.css';
 
 export class MenuItem {
     description!: string;
@@ -60,22 +60,22 @@ const getMenuIcon = (location: string) => {
 export function Menu(prop: MenuProp) {
     const items = prop.items;
     return (
-        <aside className='menu-sidebar'>
-            <div className='menu-section-label'>MAIN MENU</div>
-            <ul className='menu-nav-list'>
+        <aside className={styles.sidebar}>
+            <div className={styles.sectionLabel}>MAIN MENU</div>
+            <ul className={styles.navList}>
                 {items.map(item => {
                     const isActive = prop.selected === item.location;
                     return (
                         <li
                             key={item.location}
-                            className={`menu-nav-item ${isActive ? 'active' : ''}`}
+                            className={`${styles.navItem} ${isActive ? styles.active : ''}`}
                             onClick={() => prop.onClickMenu(item)}
                         >
-                            <span className="menu-item-icon-wrapper">
+                            <span className={styles.iconWrapper}>
                                 {item.icon ?? getMenuIcon(item.location)}
                             </span>
-                            <span className="menu-item-label">{item.description}</span>
-                            {isActive && <span className="menu-active-indicator" />}
+                            <span className={styles.label}>{item.description}</span>
+                            {isActive && <span className={styles.activeIndicator} />}
                         </li>
                     );
                 })}
@@ -83,3 +83,5 @@ export function Menu(prop: MenuProp) {
         </aside>
     );
 }
+
+export default Menu;

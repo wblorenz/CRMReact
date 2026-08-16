@@ -1,5 +1,5 @@
-import './Popup.css';
 import { createContext, useContext } from 'react';
+import styles from './Popup.module.css';
 
 export type PopupModel = {
     id: string;
@@ -16,14 +16,14 @@ export interface PopUpProps {
 
 export function Popup(props: PopUpProps) {
     return (
-        <div className="popup-overlay-container">
-            <div className="popup-backdrop" onClick={() => props.remove(props.id)} />
-            <div className="popup-dialog" key={props.id}>
-                <div className="popup-header">
-                    <h3 className="popup-title">{props.title || 'Details'}</h3>
+        <div className={styles.overlayContainer}>
+            <div className={styles.backdrop} onClick={() => props.remove(props.id)} />
+            <div className={styles.dialog} key={props.id}>
+                <div className={styles.header}>
+                    <h3 className={styles.title}>{props.title || 'Details'}</h3>
                     <button
                         type="button"
-                        className="popup-close-btn"
+                        className={styles.closeBtn}
                         onClick={() => props.remove(props.id)}
                         aria-label="Close dialog"
                     >
@@ -33,7 +33,7 @@ export function Popup(props: PopUpProps) {
                         </svg>
                     </button>
                 </div>
-                <div className="popup-body">
+                <div className={styles.body}>
                     {props.content}
                 </div>
             </div>

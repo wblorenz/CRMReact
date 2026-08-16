@@ -1,4 +1,5 @@
-.login-container {
+/* Login Component CSS Module */
+.container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -8,7 +9,7 @@
     box-sizing: border-box;
 }
 
-.login-card {
+.card {
     width: 100%;
     max-width: 420px;
     background-color: var(--bg-surface);
@@ -22,7 +23,7 @@
     animation: loginFadeIn 0.3s ease-out;
 }
 
-.login-header {
+.header {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -30,7 +31,7 @@
     gap: 0.75rem;
 }
 
-.login-logo {
+.logo {
     width: 48px;
     height: 48px;
     border-radius: var(--radius-lg);
@@ -42,7 +43,7 @@
     box-shadow: 0 4px 12px hsla(243, 75%, 59%, 0.35);
 }
 
-.login-title {
+.title {
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -50,25 +51,25 @@
     letter-spacing: -0.02em;
 }
 
-.login-subtitle {
+.subtitle {
     font-size: 0.875rem;
     color: var(--text-secondary);
     margin: 0;
 }
 
-.login-form {
+.form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
 }
 
-.login-form .form-field label {
+.form :global(.form-field) label {
     font-size: 0.825rem;
     font-weight: 600;
     color: var(--text-primary);
 }
 
-.login-btn-submit {
+.btnSubmit {
     width: 100%;
     padding: 0.75rem;
     font-size: 0.925rem;

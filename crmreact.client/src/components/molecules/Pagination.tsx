@@ -1,3 +1,5 @@
+import styles from './Pagination.module.css';
+
 interface PaginationProps {
     totalPages: number;
     currentPage: number;
@@ -14,26 +16,16 @@ export function Pagination(props: PaginationProps) {
     const displayTotal = maxPage + 1;
 
     return (
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0.85rem 0.5rem 0.25rem 0.5rem',
-            borderTop: '1px solid var(--border-subtle)',
-            marginTop: '0.75rem',
-            flexWrap: 'wrap',
-            gap: '0.75rem'
-        }}>
-            <span style={{ fontSize: '0.825rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
-                Showing page <strong style={{ color: 'var(--text-primary)' }}>{displayCurrent}</strong> of <strong style={{ color: 'var(--text-primary)' }}>{displayTotal}</strong>
+        <div className={styles.pagination}>
+            <span className={styles.pageInfo}>
+                Showing page <strong>{displayCurrent}</strong> of <strong>{displayTotal}</strong>
             </span>
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <div className={styles.btnGroup}>
                 <button
                     type='button'
-                    className="btn-secondary"
+                    className={`btn-secondary ${styles.navBtn}`}
                     onClick={() => selectPage(props.currentPage - 1)}
                     disabled={props.currentPage === 0}
-                    style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
                 >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
@@ -42,10 +34,9 @@ export function Pagination(props: PaginationProps) {
                 </button>
                 <button
                     type='button'
-                    className="btn-secondary"
+                    className={`btn-secondary ${styles.navBtn}`}
                     onClick={() => selectPage(props.currentPage + 1)}
                     disabled={props.currentPage >= props.totalPages}
-                    style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
                 >
                     Next
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -56,3 +47,5 @@ export function Pagination(props: PaginationProps) {
         </div>
     );
 }
+
+export default Pagination;

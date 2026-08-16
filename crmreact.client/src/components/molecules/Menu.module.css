@@ -1,4 +1,5 @@
-.menu-sidebar {
+/* Menu Component CSS Module */
+.sidebar {
     width: 240px;
     min-width: 240px;
     background-color: var(--bg-surface);
@@ -11,7 +12,7 @@
     height: fit-content;
 }
 
-.menu-section-label {
+.sectionLabel {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -21,7 +22,7 @@
     margin-bottom: 0.25rem;
 }
 
-.menu-nav-list {
+.navList {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -30,7 +31,7 @@
     gap: 0.35rem;
 }
 
-.menu-nav-item {
+.navItem {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -46,20 +47,21 @@
     user-select: none;
 }
 
-.menu-nav-item:hover {
+.navItem:hover {
     background-color: var(--bg-surface-hover);
     color: var(--text-primary);
     transform: translateX(2px);
 }
 
-.menu-nav-item.active {
+.navItem.active,
+.active {
     background-color: var(--primary-subtle);
     color: var(--primary);
     font-weight: 600;
     border-color: var(--primary-subtle-border);
 }
 
-.menu-item-icon-wrapper {
+.iconWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,16 +70,16 @@
     transition: var(--transition-fast);
 }
 
-.menu-nav-item.active .menu-item-icon-wrapper {
+.active .iconWrapper {
     opacity: 1;
     color: var(--primary);
 }
 
-.menu-item-label {
+.label {
     flex-grow: 1;
 }
 
-.menu-active-indicator {
+.activeIndicator {
     width: 6px;
     height: 6px;
     border-radius: 50%;

@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { GetPopupContext } from './Popup';
+import styles from './Lookup.module.css';
 
 export interface LookupProps {
     title: string;
@@ -29,14 +30,13 @@ export function Lookup(props: PropsWithChildren<LookupProps>) {
                     value={props.value || ''}
                     placeholder={props.placeholder || "Select an option..."}
                     readOnly
-                    style={{ backgroundColor: 'var(--bg-surface-subtle)', cursor: 'pointer' }}
+                    className={styles.lookupInput}
                     onClick={openPopup}
                 />
                 <button
                     type="button"
-                    className="btn-secondary"
+                    className={`btn-secondary ${styles.lookupBtn}`}
                     onClick={openPopup}
-                    style={{ flexShrink: 0 }}
                 >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -48,3 +48,5 @@ export function Lookup(props: PropsWithChildren<LookupProps>) {
         </div>
     );
 }
+
+export default Lookup;
