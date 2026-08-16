@@ -170,13 +170,17 @@ button {
   white-space: nowrap;
 }
 
-button:hover:not(:disabled) {
+button:not([class]):hover:not(:disabled),
+button.btn-primary:hover:not(:disabled),
+.btn-primary:hover:not(:disabled) {
   background-color: var(--primary-hover);
   box-shadow: var(--shadow-sm);
   transform: translateY(-1px);
 }
 
-button:active:not(:disabled) {
+button:not([class]):active:not(:disabled),
+button.btn-primary:active:not(:disabled),
+.btn-primary:active:not(:disabled) {
   background-color: var(--primary-active);
   transform: translateY(0);
 }
