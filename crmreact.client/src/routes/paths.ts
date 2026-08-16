@@ -1,0 +1,16 @@
+export const APP_ROUTES = {
+    HOME: '/',
+    DASHBOARD: '/dashboard',
+    ACCOUNTS: '/accounts',
+    ACCOUNT_EDIT: '/accounts/:id',
+    ACCOUNT_NEW: '/accounts/new',
+    accountDetail: (id: string | number) => `/accounts/${id}`,
+    CONTACTS: '/contacts',
+    CONTACT_EDIT: '/contacts/:id',
+    CONTACT_NEW: '/contacts/new',
+    contactDetail: (id: string | number) => `/contacts/${id}`,
+    TICKETS: '/tickets',
+    TICKET_EDIT: '/tickets/:id',
+    TICKET_NEW: '/tickets/new',
+    ticketDetail: (id: string | number) => `/tickets/${id}`,
+} as const;

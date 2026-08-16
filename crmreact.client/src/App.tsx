@@ -1,14 +1,7 @@
 import { useState, useReducer, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { Menu } from './components/molecules/Menu.tsx';
-import { AccountsList } from './pages/accounts/views/AccountsList.tsx';
-import { AccountEdit } from './pages/accounts/views/AccountEdit.tsx';
-import { ContactsList } from './pages/contacts/views/ContactsList.tsx';
-import { ContactEdit } from './pages/contacts/views/ContactEdit.tsx';
-import { TicketsList } from './pages/tickets/views/TicketsList.tsx';
-import { TicketEdit } from './pages/tickets/views/TicketEdit.tsx';
-import { DashboardView } from './pages/dashboard/views/DashboardView.tsx';
+import { AppRoutes } from './routes/index.ts';
 import { Login, LoginModel } from './pages/login/Login.tsx';
 import { Popup, PopupModel } from './components/molecules/Popup.tsx';
 import { QuickMessage, QuickMessageContext } from './components/molecules/QuickMessage.tsx';
@@ -166,26 +159,7 @@ function App() {
                             <main className="crm-main-layout">
                                 <Menu />
                                 <section className="crm-content-card">
-                                    <Routes>
-                                        {/* Dashboard */}
-                                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                                        <Route path="/dashboard" element={<DashboardView />} />
-
-                                        {/* Accounts */}
-                                        <Route path="/accounts" element={<AccountsList showEditing={true} />} />
-                                        <Route path="/accounts/:id" element={<AccountEdit />} />
-
-                                        {/* Contacts */}
-                                        <Route path="/contacts" element={<ContactsList showEditing={true} />} />
-                                        <Route path="/contacts/:id" element={<ContactEdit />} />
-
-                                        {/* Tickets */}
-                                        <Route path="/tickets" element={<TicketsList showEditing={true} />} />
-                                        <Route path="/tickets/:id" element={<TicketEdit />} />
-
-                                        {/* Fallback */}
-                                        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                                    </Routes>
+                                    <AppRoutes />
                                 </section>
                             </main>
 

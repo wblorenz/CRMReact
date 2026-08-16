@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.css';
+import { APP_ROUTES } from '../../routes/paths.ts';
 
 export class MenuItem {
     description!: string;
@@ -19,10 +20,10 @@ export interface MenuProp {
 }
 
 const defaultMenuItems: MenuItem[] = [
-    { description: 'Dashboard', location: 'dashboard', path: '/dashboard' },
-    { description: 'Accounts', location: 'accounts', path: '/accounts' },
-    { description: 'Contacts', location: 'contacts', path: '/contacts' },
-    { description: 'Tickets', location: 'tickets', path: '/tickets' },
+    { description: 'Dashboard', location: 'dashboard', path: APP_ROUTES.DASHBOARD },
+    { description: 'Accounts', location: 'accounts', path: APP_ROUTES.ACCOUNTS },
+    { description: 'Contacts', location: 'contacts', path: APP_ROUTES.CONTACTS },
+    { description: 'Tickets', location: 'tickets', path: APP_ROUTES.TICKETS },
 ];
 
 const getMenuIcon = (location: string) => {
