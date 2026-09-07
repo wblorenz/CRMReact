@@ -1,8 +1,10 @@
 using CRMReact.Data;
+using CRMReact.Domain.Users.Entities;
 using CRMReact.DTOs.Interfaces;
 using CRMReact.Server.Handlers;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ builder.Services.AddDbContext<CRMContext>(x =>
 builder.Services.AddAutoMapper(x => x.AddMaps([typeof(IDTO).Assembly]));
 builder.Services.AddExceptionHandler<DomainValidationExceptionHandler>();
 DataServices.AddDataServices(builder.Services);
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

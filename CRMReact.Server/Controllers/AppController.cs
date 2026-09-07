@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Contacts.Entities;
 using CRMReact.DTOs;
@@ -42,7 +42,7 @@ namespace CRMReact.Server.Controllers
         
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult> Edit([FromBody] TDTO dto)
+        public virtual async Task<ActionResult> Edit([FromBody] TDTO dto)
         {
             if (!Guid.TryParse(dto.Id ?? "", out var localGuid))
             {
@@ -93,7 +93,7 @@ namespace CRMReact.Server.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Insert([FromBody] TDTO dto)
+        public virtual async Task<ActionResult> Insert([FromBody] TDTO dto)
         {
             var acc = Mapper.Map<TEntity>(dto, x =>
             {

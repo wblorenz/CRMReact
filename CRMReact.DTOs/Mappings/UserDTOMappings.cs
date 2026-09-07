@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CRMReact.Domain.Base.Interfaces;
 using CRMReact.Domain.Tickets.Entities;
 using CRMReact.Domain.Users.Entities;
@@ -17,7 +17,8 @@ namespace CRMReact.DTOs.Mappings
         public UserDTOMappings()
         {
             CreateMap<UserDTO, User>()
-                .ForMember(x => x.Id, (y) => y.Ignore());
+                .ForMember(x => x.Id, (y) => y.Ignore())
+                .ForMember(x => x.Password, (y) => y.Ignore());
             CreateMap<User, UserDTO>()
                 .ForMember(x => x.Password, y => y.Ignore());
         }
