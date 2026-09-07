@@ -5,6 +5,7 @@ using CRMReact.Domain.Contacts.Repositories;
 using CRMReact.Domain.Tickets.Repositories;
 using CRMReact.Domain.Users.Entities;
 using CRMReact.Domain.Users.Repositories;
+using CRMReact.DTOs;
 using CRMReact.DTOs.DTOs;
 using CRMReact.DTOs.Mappings;
 using CRMReact.Server.Controllers;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -215,10 +217,7 @@ namespace CRMReact.Tests
 
         private static IMapper CreateMapper()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<UserDTOMappings>();
-            }, typeof(UserDTOMappings).Assembly);
+            var config = new MapperConfiguration(x => x.AddMaps([typeof(DTOConfiguration).Assembly]), new LoggerFactory());
             return config.CreateMapper();
         }
 
